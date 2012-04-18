@@ -4,7 +4,6 @@ package {
 	
 	import Src.Game;
 	
-	[SWF( width="640",height="480" )]
 	public class Main extends Sprite {
 		private var game:Game;
 	
