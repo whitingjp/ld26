@@ -96,7 +96,7 @@ package Src.Tiles
     
     public function update():void
     {
-      inPallete = game.input.keyDownDictionary[32];
+      inPallete = game.input.keyDownDictionary[Input.KEY_SPACE];
       var offset:Point = game.camera.pos;
       var mousePos:Point = game.input.mousePos.clone();
       if(!inPallete)
@@ -109,12 +109,12 @@ package Src.Tiles
       {        
         tileMap.setTileByIndex(i, selected);
       }
-      if(game.input.keyDownDictionary[17])
+      if(game.input.keyDownDictionary[Input.KEY_CONTROL])
       {
         if(inPallete) selected = pallete.getTileAtPos(mousePos);
         else selected = tileMap.getTileAtPos(mousePos);
       }
-      if(game.input.keyDownDictionary[16] && !inPallete)
+      if(game.input.keyDownDictionary[Input.KEY_SHIFT] && !inPallete)
       {
         var p:Point = tileMap.getXY(i);
         autoTile(p.x, p.y);
@@ -124,9 +124,9 @@ package Src.Tiles
         autoTile(p.x-1, p.y);        
       }
       
-      if(game.input.keyPressedDictionary[67]) // c
+      if(game.input.keyPressedDictionary[Input.KEY_C])
         saveToFile("level.lev");
-      if(game.input.keyPressedDictionary[76]) // l
+      if(game.input.keyPressedDictionary[Input.KEY_L])
         loadFromFile();      
     }
     

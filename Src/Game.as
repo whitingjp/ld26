@@ -86,7 +86,7 @@ package Src
       if(gameState == STATE_EDITING)
         tileEditor.update();
         
-      if(input.keyPressedDictionary[69]) // e
+      if(input.keyPressedDictionary[Input.KEY_E])
       {
         if(gameState == STATE_GAME)
           changeState(STATE_EDITING);
