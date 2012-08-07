@@ -138,5 +138,37 @@ package Src.Tiles
       }
       return CCollider.COL_NONE;
     }
+
+    public function pack(byteArray:ByteArray):void
+    {
+      byteArray.writeInt(magic);
+      byteArray.writeInt(version); 
+      byteArray.writeInt(width);
+      byteArray.writeInt(height);
+      for(var i:int=0; i<tiles.length; i++)
+        tiles[i].addToByteArray(byteArray);
+      byteArray.compress();
+    }
+
+    public function unpack(byteArray:ByteArray):void
+    {
+      byteArray.uncompress();
+           
+      if(magic != byteArray.readInt())
+      {
+        trace("Not a game level file!");
+        return;
+      }
+      if(TileMap.version != byteArray.readInt())
+      {
+        trace("Wrong level version!");
+        return;
+      }
+      var w:int = byteArray.readInt();
+      var h:int = byteArray.readInt();
+      reset(w, h);
+      for(var i:int=0; i<tiles.length; i++)
+        tiles[i].readFromByteArray(byteArray);
+    }
   }
 }

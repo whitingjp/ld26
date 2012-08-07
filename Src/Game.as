@@ -43,6 +43,11 @@ package Src
     public var frontEnd:Frontend;
     public var camera:Camera;
 
+    /*
+    [Embed(source="../level/test.lev", mimeType="application/octet-stream")]
+    public static const TestLevelClass: Class;
+    */
+
     public function Game()
     {
       entityManager = new EntityManager(this, 8);
@@ -52,6 +57,8 @@ package Src
       tileMap = new TileMap(this);      
       frontEnd = new Frontend(this);
       camera = new Camera(this);
+
+      //tileMap.unpack(new TestLevelClass as ByteArray);
     }
 
     public function init(w:int, h:int, pixelSize:int, targetFps:int, stage:Stage):void
