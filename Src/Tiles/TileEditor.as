@@ -14,6 +14,7 @@ package Src.Tiles
   {
     private var tileMap:TileMap;
     private var pallete:TileMap;
+    private var index:int;
     private var selected:Tile;
     private var inPallete:Boolean = false;
     private var game:Game;
@@ -58,6 +59,8 @@ package Src.Tiles
     public function autoTile(x:int, y:int):void
     {
       var t:Tile = tileMap.getTile(x, y);
+      if(t.t == Tile.T_ENTITY)
+        return;
       var group:int = getTileGroup(t);
       var flags:int = 0;
 
@@ -71,6 +74,7 @@ package Src.Tiles
       checkTile = tileMap.getTile(x-1,y);
       if(checkTile.t == t.t && getTileGroup(checkTile) == group) flags |= 8;
       
+      var allWall:Boolean = false;
       switch(flags)
       {
         case  0: t.xFrame = 3; t.yFrame = 3; break;
@@ -88,15 +92,41 @@ package Src.Tiles
         case 12: t.xFrame = 2; t.yFrame = 0; break;
         case 13: t.xFrame = 2; t.yFrame = 1; break;
         case 14: t.xFrame = 1; t.yFrame = 0; break;
-        case 15: t.xFrame = 1; t.yFrame = 1; break;
-      }      
+        case 15: allWall = true; break;
+      }
+      if(allWall)
+      {
+        // is it center or inner corner?
+        flags = 0;
+        checkTile = tileMap.getTile(x+1,y-1);
+        if(checkTile.t == t.t && getTileGroup(checkTile) == group) flags |= 1;
+        checkTile = tileMap.getTile(x+1,y+1);
+        if(checkTile.t == t.t && getTileGroup(checkTile) == group) flags |= 2;
+        checkTile = tileMap.getTile(x-1,y+1);
+        if(checkTile.t == t.t && getTileGroup(checkTile) == group) flags |= 4;
+        checkTile = tileMap.getTile(x-1,y-1);
+        if(checkTile.t == t.t && getTileGroup(checkTile) == group) flags |= 8;
+        switch(flags)
+        {
+          default: t.xFrame = 1; t.yFrame = 1; break;
+          /*
+          case 3:  t.xFrame = 5; t.yFrame = 3; break;
+          case 6:  t.xFrame = 4; t.yFrame = 2; break;
+          case 7:  t.xFrame = 5; t.yFrame = 1; break;
+          case 9:  t.xFrame = 4; t.yFrame = 3; break;
+          case 11: t.xFrame = 5; t.yFrame = 0; break;
+          case 12: t.xFrame = 5; t.yFrame = 2; break;
+          case 13: t.xFrame = 4; t.yFrame = 0; break;
+          case 14: t.xFrame = 4; t.yFrame = 1; break;
+          */
+        }
+      }
       t.yFrame += (group/16)*4;
       t.xFrame += (group-int(group/16)*16)*4;
     }
-    
-    public function update():void
+
+    public function getOffsetMouse():Point
     {
-      inPallete = game.input.keyDownDictionary[Input.KEY_SPACE];
       var offset:Point = game.camera.pos;
       var mousePos:Point = game.input.mousePos.clone();
       if(!inPallete)
@@ -104,10 +134,18 @@ package Src.Tiles
         mousePos.x += offset.x;
         mousePos.y += offset.y;      
       }
-      var i:int = tileMap.getIndexFromPos(mousePos);
+      return mousePos;
+    }
+    
+    public function update():void
+    {
+      inPallete = game.input.keyDownDictionary[Input.KEY_SPACE];
+
+      var mousePos:Point = getOffsetMouse();
+      index = tileMap.getIndexFromPos(mousePos);
       if(game.input.mouseHeld && !inPallete)
       {        
-        tileMap.setTileByIndex(i, selected);
+        tileMap.setTileByIndex(index, selected);
       }
       if(game.input.keyDownDictionary[Input.KEY_CONTROL])
       {
@@ -116,7 +154,7 @@ package Src.Tiles
       }
       if(game.input.keyDownDictionary[Input.KEY_SHIFT] && !inPallete)
       {
-        var p:Point = tileMap.getXY(i);
+        var p:Point = tileMap.getXY(index);
         autoTile(p.x, p.y);
         autoTile(p.x, p.y-1);
         autoTile(p.x+1, p.y);
@@ -130,13 +168,30 @@ package Src.Tiles
         loadFromFile();      
     }
     
-    public function render():void
+    public function renderWithCam():void
+    {
+      var xy:Point = tileMap.getXY(index);
+      var rect:Rectangle = new Rectangle(
+        xy.x*TileMap.tileWidth, xy.y*TileMap.tileHeight,
+        TileMap.tileWidth, TileMap.tileHeight);
+      game.renderer.drawHollowRect(rect, 0xfff847);
+    }
+    
+    public function renderWithoutCam():void
     {
       if(inPallete)
       {
         game.renderer.cls();
         pallete.render();
       }
+
+      var spr:String = tileMap.sprites[selected.t];
+      game.renderer.drawSprite(spr, 0, game.renderer.height-TileMap.tileHeight,
+                               selected.xFrame, selected.yFrame);
+      var rect:Rectangle = new Rectangle(
+        0, game.renderer.height-TileMap.tileHeight,
+        TileMap.tileWidth, TileMap.tileHeight);
+      game.renderer.drawHollowRect(rect, 0xf09bf7);
     }
     
     public function saveToFile(fileName:String):void    

@@ -111,6 +111,20 @@ package Src.Gfx
       backBuffer.fillRect(rect, fillCol);
     }
 
+    public function drawHollowRect(rect:Rectangle, fillCol:uint):void
+    {
+      if(camera)
+      {
+        rect.x -= camera.pos.x;
+        rect.y -= camera.pos.y;
+      }
+
+      backBuffer.fillRect(new Rectangle(rect.x, rect.y, rect.width, 1), fillCol);
+      backBuffer.fillRect(new Rectangle(rect.x+rect.width-1, rect.y, 1, rect.height), fillCol);
+      backBuffer.fillRect(new Rectangle(rect.x, rect.y+rect.height-1, rect.width, 1), fillCol);
+      backBuffer.fillRect(new Rectangle(rect.x, rect.y, 1, rect.height), fillCol);
+    }
+
     public function drawSpriteText(str:String, x:int, y:int):void
     {
       if(camera)

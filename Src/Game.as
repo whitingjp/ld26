@@ -115,9 +115,11 @@ package Src
       renderer.setCamera(camera);
       tileMap.render();
       entityManager.render();
+      if(gameState == STATE_EDITING)
+        tileEditor.renderWithCam();
       renderer.setCamera();
       if(gameState == STATE_EDITING)
-        tileEditor.render();      
+        tileEditor.renderWithoutCam(); 
       if(gameState == STATE_FE)
         frontEnd.render();
 		
