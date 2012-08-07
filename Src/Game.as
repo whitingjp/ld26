@@ -23,14 +23,14 @@ package Src
     public static var STATE_EDITING:int = 1;
     public static var STATE_FE:int = 2;
     
-	public var stage:Stage;
+    public var stage:Stage;
 
     private var fps:Number=60;
     private var lastTime:int = 0;
     private var fpsText:TextField;
 
     private var updateTracker:Number = 0;
-	private var physTime:Number;
+    private var physTime:Number;
 
     private var gameState:int = STATE_GAME;
 
@@ -44,9 +44,9 @@ package Src
     public var camera:Camera;
 
     public function Game()
-    {	  
+    {
       entityManager = new EntityManager(this, 8);
-	  input = new Input(this);
+      input = new Input(this);
       renderer = new Renderer();	  
       soundManager = new SoundManager();
       tileMap = new TileMap(this);      
@@ -56,12 +56,12 @@ package Src
 
     public function init(w:int, h:int, pixelSize:int, targetFps:int, stage:Stage):void
     {
-	  this.stage = stage;	  
-	  
-	  physTime = 1000.0/targetFps;
+      this.stage = stage;	  
+    
+      physTime = 1000.0/targetFps;
       renderer.init(w, h, pixelSize);
       soundManager.init();
-	  input.init();
+      input.init();
       tileEditor = new TileEditor(tileMap);
 
       gameState = STATE_GAME;
@@ -72,8 +72,8 @@ package Src
       fpsText.text = "352 fps";
 
       resetEntities();
-	  
-	  stage.addEventListener(Event.ENTER_FRAME, enterFrame);
+    
+      stage.addEventListener(Event.ENTER_FRAME, enterFrame);
     }
 
     private function update():void
@@ -111,7 +111,7 @@ package Src
     private function render():void
     {
       renderer.cls();
-	  
+      
       renderer.setCamera(camera);
       tileMap.render();
       entityManager.render();
@@ -122,24 +122,25 @@ package Src
         tileEditor.renderWithoutCam(); 
       if(gameState == STATE_FE)
         frontEnd.render();
-		
-      renderer.drawFontText("Jonathan Whiting's Basecode",
-                            renderer.width/2, 10, true);
 
+      /*
       if(!IS_FINAL)
         renderer.backBuffer.draw(fpsText);
-	  
+      */
+      
       renderer.flip();
     }
 
     public function enterFrame(event:Event):void
     {
       var thisTime:int = getTimer();
-      fps = (fps*9 + 1000/(thisTime-lastTime))/10;
       updateTracker += thisTime-lastTime;
       lastTime = thisTime;
+      
+      fps = (fps*9 + 1000/(thisTime-lastTime))/10;
+      /*
       if(fpsText)
-        fpsText.text = "FPS: "+int(fps);
+        fpsText.text = "FPS: "+int(fps);*/
 
       while(updateTracker > 0)
       {
