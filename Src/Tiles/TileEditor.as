@@ -35,11 +35,10 @@ package Src.Tiles
   
     private function fillOutPallete(t:int, x:int, y:int):int
     {
-      var sprite:String = pallete.sprites[t];
-      var spriteDef:SpriteDef = game.renderer.getSpriteDef(sprite);
-      for(var i:int=0; i<spriteDef.xFrames; i++)
+      var sprite:SpriteDef = pallete.sprites[t];
+      for(var i:int=0; i<sprite.xFrames; i++)
       {
-        for(var j:int=0; j<spriteDef.yFrames; j++)
+        for(var j:int=0; j<sprite.yFrames; j++)
         {
           var tile:Tile = new Tile();
           tile.t = t;
@@ -48,7 +47,7 @@ package Src.Tiles
           pallete.setTile(x+i, y+j, tile);
         }
       }
-      return y+spriteDef.yFrames;
+      return y+sprite.yFrames;
     }
     
     public function getTileGroup(t:Tile):int
@@ -185,7 +184,7 @@ package Src.Tiles
         pallete.render();
       }
 
-      var spr:String = tileMap.sprites[selected.t];
+      var spr:SpriteDef = tileMap.sprites[selected.t];
       game.renderer.drawSprite(spr, 0, game.renderer.height-TileMap.tileHeight,
                                selected.xFrame, selected.yFrame);
       var rect:Rectangle = new Rectangle(

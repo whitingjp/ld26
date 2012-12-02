@@ -28,8 +28,6 @@ package Src.Gfx
     // background
     public var bitmap:Bitmap;
 
-    private var sprites:Object;
-
     private var fadeSpeed:Number;
     private var fade:Number;
     private var fadeCol:uint;
@@ -38,12 +36,12 @@ package Src.Gfx
 
     public function init(width:int, height:int, pixelSize:int):void
     {
-    this.width = width;
-    this.height = height;
-    this.pixelSize = pixelSize;
+      this.width = width;
+      this.height = height;
+      this.pixelSize = pixelSize;
     
-    bitmap = new Bitmap(new BitmapData(width, height, false, 0xAAAAAA ) );
-    bitmap.scaleX = bitmap.scaleY = pixelSize;
+      bitmap = new Bitmap(new BitmapData(width, height, false, 0xAAAAAA ) );
+      bitmap.scaleX = bitmap.scaleY = pixelSize;
     
       spriteSheetSrc = new spriteSheetClass() as BitmapAsset;
       spriteSheet = spriteSheetSrc.bitmapData;
@@ -52,12 +50,6 @@ package Src.Gfx
       if(pixelSize != 1)
         postBuffer = new BitmapData(width*pixelSize,
                                     height*pixelSize, false);
-
-      sprites = new Object();
-      sprites["player"] = new SpriteDef(0,0,16,16);
-      sprites["decoration"] = new SpriteDef(0,0,1,1);
-      sprites["walls"] = new SpriteDef(0,16,16,16,5,4);
-      sprites["objects"] = new SpriteDef(32,0,16,16,1,1);
 
       fade = 0;
       fadeSpeed = 0.005;
@@ -78,7 +70,7 @@ package Src.Gfx
       // TODO handle fade again
     }
 
-    public function drawSprite(sprite:String, x:int, y:int,
+    public function drawSprite(spr:SpriteDef, x:int, y:int,
                                 xFrame:int=0, yFrame:int=0):void
     {
       if(camera)
@@ -86,21 +78,9 @@ package Src.Gfx
         x -= camera.pos.x;
         y -= camera.pos.y;
       }
-      var spr:SpriteDef = getSpriteDef(sprite);
-      if(!spr) return;
       backBuffer.copyPixels(spriteSheet, spr.getRect(xFrame, yFrame), new Point(x,y));
     }
     
-    public function getSpriteDef(sprite:String):SpriteDef
-    {
-      if(!sprites.hasOwnProperty(sprite))
-      {
-        trace("Sprite '"+sprite+"' not found!");
-        return null;
-      }
-      return sprites[sprite];    
-    }
-
     public function drawRect(rect:Rectangle, fillCol:uint):void
     {
       if(camera)

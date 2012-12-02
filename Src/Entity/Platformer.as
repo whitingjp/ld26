@@ -6,6 +6,7 @@ package Src.Entity
   import flash.ui.Keyboard;
   import flash.utils.Dictionary;
   import Src.Tiles.*;
+  import Src.Gfx.*;
 
   public class Platformer extends Entity
   {
@@ -15,17 +16,17 @@ package Src.Entity
     public var jumpTimer:int;
 
     public function Platformer(pos:Point)
-    {      
-      sprite = new CSprite(this, "player");
+    {
+      sprite = new CSprite(this, new SpriteDef(0,0,16,16));
       collider = new CCollider(this);
       reset();
-      collider.pos = pos;      
+      collider.pos = pos;
     }
 
     public function reset():void
     {
       jumpTimer = 0;
-      sprite.frame = 0;
+      sprite.frame.x = 0;
       collider.pos = new Point(0,0);
       collider.speed = new Point(0,0);
     }

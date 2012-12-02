@@ -42,9 +42,9 @@ package Src.Tiles
       this.height = height;
       
       sprites = new Array();
-      sprites[Tile.T_NONE] = "decoration";
-      sprites[Tile.T_WALL] = "walls";
-      sprites[Tile.T_ENTITY] = "objects";
+      sprites[Tile.T_NONE] = new SpriteDef(0,0,1,1);
+      sprites[Tile.T_WALL] = new SpriteDef(0,16,16,16,5,4);
+      sprites[Tile.T_ENTITY] = new SpriteDef(32,0,16,16,1,1);
       
       tiles = new Array();
       for(var i:int=0; i<width*height; i++)
@@ -77,7 +77,7 @@ package Src.Tiles
         var y:int = i/width;
         var x:int = i-(y*width);
         var tile:Tile = getTile(x,y);
-        var spr:String = sprites[tile.t];  
+        var spr:SpriteDef = sprites[tile.t];  
         game.renderer.drawSprite(spr, x*tileWidth, y*tileHeight, tile.xFrame, tile.yFrame);
       }
     }
