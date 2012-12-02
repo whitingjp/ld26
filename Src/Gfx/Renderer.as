@@ -26,8 +26,8 @@ package Src.Gfx
     public var clearColor:uint = 0xff0a0d0d;
     
     // background
-	public var bitmap:Bitmap;
-	
+    public var bitmap:Bitmap;
+
     private var sprites:Object;
 
     private var fadeSpeed:Number;
@@ -38,13 +38,13 @@ package Src.Gfx
 
     public function init(width:int, height:int, pixelSize:int):void
     {
-	  this.width = width;
-	  this.height = height;
-	  this.pixelSize = pixelSize;
-	  
-	  bitmap = new Bitmap(new BitmapData(width, height, false, 0xAAAAAA ) );
-	  bitmap.scaleX = bitmap.scaleY = pixelSize;
-	  
+    this.width = width;
+    this.height = height;
+    this.pixelSize = pixelSize;
+    
+    bitmap = new Bitmap(new BitmapData(width, height, false, 0xAAAAAA ) );
+    bitmap.scaleX = bitmap.scaleY = pixelSize;
+    
       spriteSheetSrc = new spriteSheetClass() as BitmapAsset;
       spriteSheet = spriteSheetSrc.bitmapData;
 
@@ -72,10 +72,10 @@ package Src.Gfx
 
     public function flip():void
     {
-	  bitmap.bitmapData.fillRect( bitmap.bitmapData.rect, clearColor );
-	  bitmap.bitmapData.copyPixels(backBuffer, backBuffer.rect, new Point(0,0));
-	  
-	  // TODO handle fill again
+      bitmap.bitmapData.fillRect( bitmap.bitmapData.rect, clearColor );
+      bitmap.bitmapData.copyPixels(backBuffer, backBuffer.rect, new Point(0,0));
+    
+      // TODO handle fade again
     }
 
     public function drawSprite(sprite:String, x:int, y:int,
@@ -207,6 +207,17 @@ package Src.Gfx
         fade = -1;
       fadeSpeed = speed;
       fadeCol = col;
+    }
+
+    public function colourMap(src:Array, dest:Array):void
+    {
+      for(var i:int=0; i<src.length; i++)
+        swapColour(backBuffer, src[i], dest[i]);
+    }
+
+    public function swapColour(image:BitmapData, source:uint, dest:uint):void
+    {
+      image.threshold(image, image.rect, new Point(0,0), "==", source, dest);
     }
 
     public function update():void
