@@ -99,6 +99,13 @@ package Src
       var dict:Dictionary = held ? keyDownDictionary : keyPressedDictionary;
       return dict[KEY_DOWN] || dict[KEY_S];
     }
+
+    public function actKey(held:Boolean=true):Boolean
+    {
+      var dict:Dictionary = held ? keyDownDictionary : keyPressedDictionary;
+      return dict[KEY_Z] || dict[KEY_X] || dict[KEY_SPACE] ||
+             dict[KEY_SHIFT] || dict[KEY_CONTROL] || dict[KEY_ENTER];
+    }
     
 		public static const KEY_BACKSPACE : int = 8;
 		public static const KEY_ENTER : int = 13;
