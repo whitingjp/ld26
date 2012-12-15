@@ -20,7 +20,6 @@ package Src.Gfx
 
     // double buffer
     public var backBuffer:BitmapData;
-    public var postBuffer:BitmapData;
 
     // colour to use to clear backbuffer with
     public var clearColor:uint = 0xff0a0d0d;
@@ -47,9 +46,6 @@ package Src.Gfx
       spriteSheet = spriteSheetSrc.bitmapData;
 
       backBuffer = new BitmapData(width, height, false);
-      if(pixelSize != 1)
-        postBuffer = new BitmapData(width*pixelSize,
-                                    height*pixelSize, false);
 
       fade = 0;
       fadeSpeed = 0.005;
