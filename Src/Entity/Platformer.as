@@ -34,16 +34,9 @@ package Src.Entity
 
     public override function update():void
     {
-      collider.process();
       platformer.update();
-      collider.clean();
       //game.camera.setTarget(collider.pos);
     }    
-	
-    public override function subUpdate(subMoves:int):void
-    {
-      collider.subUpdate(subMoves);
-    }
     
     public override function render():void
     {

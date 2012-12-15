@@ -54,7 +54,11 @@ package Src.Entity
 
     public function updateJump():void
     {
-      if(controller.goUp && collider.collides[2] & CCollider.COL_SOLID)
+      var floorRect:Rectangle = collider.worldRect;
+      floorRect.offset(0,2);
+      floorRect.inflate(-2,0);
+      var col:int = e.game.tileMap.getColAtRect(floorRect);
+      if(col & CCollider.COL_SOLID && controller.goUp)
       {
         collider.speed.y -= 5;
       }
@@ -68,6 +72,7 @@ package Src.Entity
       controller.update(); 
       updateRun();
       updateJump();
+      collider.update();
     }
  
     public function render(pos:Point=null):void

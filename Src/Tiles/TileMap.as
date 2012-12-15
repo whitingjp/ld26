@@ -139,6 +139,18 @@ package Src.Tiles
       return CCollider.COL_NONE;
     }
 
+    public function getColAtRect(r:Rectangle):int
+    {
+      var col:int = CCollider.COL_NONE;
+      var p:Point = new Point(0,0);
+      for(p.x=r.left; p.x<=r.right; p.x+=tileWidth/2)      
+        for(p.y=r.top; p.y<=r.bottom; p.y+=tileHeight/2)
+          col = col | getColAtPos(p);
+      p.x = r.right; p.y = r.bottom;
+      col = col | getColAtPos(p);
+      return col;
+    }
+
     public function pack(byteArray:ByteArray):void
     {
       byteArray.writeInt(magic);

@@ -26,7 +26,6 @@ package Src.Entity
     }    
 
     public function update():void {}
-    public function subUpdate(subMoves:int):void {}
     public function render():void {}
   }
 }
