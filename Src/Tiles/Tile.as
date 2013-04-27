@@ -6,8 +6,9 @@ package Src.Tiles
     public static const T_NONE:int=0;
     public static const T_WALL:int=1;
     public static const T_GRAPPLE:int=2;
-    public static const T_ENTITY:int=3;
-    public static const T_MAX:int=4;
+    public static const T_CLIMB:int=3;
+    public static const T_ENTITY:int=4;
+    public static const T_MAX:int=5;
     
     public var t:int;
     public var xFrame:int;

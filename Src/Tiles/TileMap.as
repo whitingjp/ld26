@@ -45,6 +45,7 @@ package Src.Tiles
       sprites[Tile.T_NONE] = new SpriteDef(0,0,1,1);
       sprites[Tile.T_WALL] = new SpriteDef(0,56,14,14,1,1);
       sprites[Tile.T_GRAPPLE] = new SpriteDef(210,56,14,14,1,1);
+      sprites[Tile.T_CLIMB] = new SpriteDef(140,14,14,14,1,1);
       sprites[Tile.T_ENTITY] = new SpriteDef(0,84,14,14,1,1);
 
       
@@ -142,6 +143,7 @@ package Src.Tiles
       {
         case Tile.T_WALL: return CCollider.COL_SOLID;
         case Tile.T_GRAPPLE: return CCollider.COL_SOLID | CCollider.COL_GRAPPLE;
+        case Tile.T_CLIMB: return CCollider.COL_CLIMB;
       }
       return CCollider.COL_NONE;
     }

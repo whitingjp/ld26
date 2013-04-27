@@ -11,25 +11,35 @@ package Src.Entity
   public class Platformer extends Entity
   {
     public var collider:CCollider;
-    public var platformer:CPlatformer;
     public var controller:CController;
     public var sprite:CSprite;
+
+    public var platformer:CPlatformer;
     public var rope:CRope;
+    public var climb:CClimb;
+
     public var shooting:Boolean;
     public var stringDraw:Number;
 
+    public static const MOVE_PLATFORM:int = 0;
+    public static const MOVE_GRAPPLE:int = 1;
+    public static const MOVE_CLIMB:int = 2;
+    public var moveMode:int;
+
     public function Platformer(pos:Point)
     {
-      sprite = new CSprite(this, new SpriteDef(0,0,14,14,5,2));
+      sprite = new CSprite(this, new SpriteDef(0,0,14,14,7,2));
       controller = new CPlayerController(this);
       collider = new CCollider(this);
       collider.rect = new Rectangle(2,-1,10,14);
       platformer = new CPlatformer(this, collider, sprite, controller);      
       rope = new CRope(this, collider, controller);
+      climb = new CClimb(this, collider, controller);
       reset();
       collider.pos = pos;
       shooting = false;
       stringDraw = 0;
+      moveMode = MOVE_PLATFORM;
     }
 
     public function reset():void
@@ -41,7 +51,8 @@ package Src.Entity
 
     public override function update():void
     {
-      platformer.update();
+      if(moveMode != MOVE_CLIMB)
+        platformer.update();
       //game.camera.setTarget(collider.pos);      
       if(controller.doAction)
       {
@@ -57,22 +68,33 @@ package Src.Entity
         stringDraw = 0;
       }
 
+      if(rope.grappling)
+        moveMode = MOVE_GRAPPLE;
+      else if (climb.climbing)
+        moveMode = MOVE_CLIMB;
+      else
+        moveMode = MOVE_PLATFORM;
 
-      platformer.disableMove = shooting || rope.grappling;
+      if(moveMode == MOVE_GRAPPLE)
+        climb.climbing = false;
+      platformer.disableMove = shooting || moveMode != MOVE_PLATFORM;
       rope.update();
+      climb.update();
     }
 
     public function newArrow():Arrow
     {
       var power:Number = 2+stringDraw*5;
       var angle:Number = (Math.PI/3)*(stringDraw+Math.PI/2);
-      if(platformer.goingLeft)
+      var flip:Boolean = false;
+      if(moveMode != MOVE_CLIMB && platformer.goingLeft)
+        flip = true;
+      if(moveMode == MOVE_CLIMB && climb.goingLeft)
+        flip = true;
+      if(flip)
         angle = -angle;
       var worldRect:Rectangle = collider.worldRect;
       var midPoint:Point = Point.interpolate(worldRect.topLeft, worldRect.bottomRight, 0.5);
-      //if(platformer.goingLeft)
-        //return new Arrow(midPoint, new Point(-power,-power), rope);
-      //else
       return new Arrow(midPoint, new Point(Math.sin(angle)*power, Math.cos(angle)*power), rope);
     }
     
@@ -83,8 +105,10 @@ package Src.Entity
         sprite.frame.x = 2;
       if(shooting)
         sprite.frame.x = 3;
-      if(rope.grappling)
+      if(moveMode == MOVE_GRAPPLE)
         sprite.frame.x = 4;
+      if(moveMode == MOVE_CLIMB)
+        sprite.frame.x = 5+climb.anim*2;
 
       if(platformer.goingLeft)
         sprite.frame.y = 1;

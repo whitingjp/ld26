@@ -19,7 +19,7 @@ package Src.Entity
     public function Arrow(pos:Point, speed:Point, rope:CRope)
     {
       this.rope = rope;
-      sprite = new CSprite(this, new SpriteDef(70,0,3,3,4,1));
+      sprite = new CSprite(this, new SpriteDef(70,84,3,3,4,1));
       collider = new CCollider(this);
       collider.rect = new Rectangle(1,1,2,2);
       collider.resolve = false;

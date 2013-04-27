@@ -51,8 +51,9 @@ package Src
 
     public function keyDown(event:KeyboardEvent):void
     {
+      if(!keyDownDictionary[event.keyCode])
+        keyPressedDictionary[event.keyCode] = true;
       keyDownDictionary[event.keyCode] = true;
-      keyPressedDictionary[event.keyCode] = true;
     }
 
     public function mouseMove(event:MouseEvent):void

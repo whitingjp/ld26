@@ -17,6 +17,7 @@ package Src.Entity
     public var anim:Number;
     public var inAir:Boolean;
     public var disableMove:Boolean;
+    public var disableGravity:Boolean;
 
     public function CPlatformer(e:Entity, collider:CCollider, sprite:CSprite, controller:CController)
     {
@@ -33,21 +34,24 @@ package Src.Entity
       goingLeft = false;
       inAir = false;
       disableMove = false;
+      disableGravity = false;
     }
 
     public function updateRun():void
     {
+      var accel:Number = inAir ? 0.05 : 0.3;
+      var max:Number = inAir ? 1.5 : 1;
       if(controller.goLeft && !disableMove)
       {
-        collider.speed.x -= inAir ? 0.1 : 0.3;
-        if(collider.speed.x < -1)
-          collider.speed.x = -1;
+        collider.speed.x -= accel;
+        if(collider.speed.x < -max)
+          collider.speed.x = -max;
       }
-      if(controller.goRight && !disableMove && !inAir)
+      if(controller.goRight && !disableMove)
       {
-        collider.speed.x += inAir ? 0.1 : 0.3;
-        if(collider.speed.x > 1)
-          collider.speed.x = 1;
+        collider.speed.x += accel;
+        if(!inAir && collider.speed.x > max)
+          collider.speed.x = max;
       }
       if(!inAir && ((!controller.goLeft && !controller.goRight) || disableMove))
         collider.speed.x /= 1.7;
@@ -74,9 +78,12 @@ package Src.Entity
         collider.speed.y = 0;
       if(!inAir && controller.jump && !disableMove)
         collider.speed.y = -1.8;
-      collider.speed.y += 0.1;
-      if(collider.speed.y > 4)
-        collider.speed.y = 4;
+      if(!disableGravity)
+      {
+        collider.speed.y += 0.1;
+        if(collider.speed.y > 4)
+          collider.speed.y = 4;
+      }
     }
 
     public function update():void
