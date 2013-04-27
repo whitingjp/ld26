@@ -43,10 +43,10 @@ package Src
     public var frontEnd:Frontend;
     public var camera:Camera;
 
-    /*
-    [Embed(source="../level/test.lev", mimeType="application/octet-stream")]
+    
+    [Embed(source="../level/level.lev", mimeType="application/octet-stream")]
     public static const TestLevelClass: Class;
-    */
+    
 
     public function Game()
     {
@@ -58,7 +58,7 @@ package Src
       frontEnd = new Frontend(this);
       camera = new Camera(this);
 
-      //tileMap.unpack(new TestLevelClass as ByteArray);
+      tileMap.unpack(new TestLevelClass as ByteArray);
     }
 
     public function init(w:int, h:int, pixelSize:int, targetFps:int, stage:Stage):void

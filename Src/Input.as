@@ -100,13 +100,13 @@ package Src
       return dict[KEY_DOWN] || dict[KEY_S];
     }
 
-    public function actKey(held:Boolean=true):Boolean
+    public function jumpKey(held:Boolean=true):Boolean
     {
       var dict:Dictionary = held ? keyDownDictionary : keyPressedDictionary;
       return dict[KEY_Z] || dict[KEY_SHIFT] || dict[KEY_CONTROL];
     }
 
-    public function jumpKey(held:Boolean=true):Boolean
+    public function actKey(held:Boolean=true):Boolean
     {
       var dict:Dictionary = held ? keyDownDictionary : keyPressedDictionary;
       return dict[KEY_X] || dict[KEY_SPACE] || dict[KEY_SHIFT];

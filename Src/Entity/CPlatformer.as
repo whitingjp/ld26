@@ -73,7 +73,7 @@ package Src.Entity
       if(!inAir)
         collider.speed.y = 0;
       if(!inAir && controller.jump && !disableMove)
-        collider.speed.y = -1.5;
+        collider.speed.y = -1.8;
       collider.speed.y += 0.1;
       if(collider.speed.y > 4)
         collider.speed.y = 4;

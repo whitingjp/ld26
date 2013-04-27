@@ -86,9 +86,9 @@ package Src.Entity
       collider.speed = collider.speed.add(diff);
 
       if(controller.goLeft)
-        collider.speed.x -= 0.025;
+        collider.speed.x -= 0.05;
       if(controller.goRight)
-        collider.speed.x += 0.025;      
+        collider.speed.x += 0.05;      
     }
   }
 }

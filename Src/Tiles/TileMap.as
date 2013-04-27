@@ -32,7 +32,7 @@ package Src.Tiles
     
     public function TileMap(game:Game)
     {
-      reset(30,10);
+      reset(19,14);
       this.game = game;
     }
     
