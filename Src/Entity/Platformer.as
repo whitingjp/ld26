@@ -45,6 +45,15 @@ package Src.Entity
         platformer.disableMove = true;
       } else
       {
+        if(shooting)
+        {
+          var worldRect:Rectangle = collider.worldRect;
+          var midPoint:Point = Point.interpolate(worldRect.topLeft, worldRect.bottomRight, 0.5);
+          if(platformer.goingLeft)
+            game.entityManager.push(new Arrow(midPoint, new Point(-3,-3)));
+          else
+            game.entityManager.push(new Arrow(midPoint, new Point(3,-3)));
+        }
         shooting = false;
         platformer.disableMove = false;
       }
