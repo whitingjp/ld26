@@ -50,7 +50,7 @@ package Src.Entity
       if(controller.goRight && !disableMove)
       {
         collider.speed.x += accel;
-        if(!inAir && collider.speed.x > max)
+        if(collider.speed.x > max)
           collider.speed.x = max;
       }
       if(!inAir && ((!controller.goLeft && !controller.goRight) || disableMove))
