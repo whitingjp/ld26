@@ -65,7 +65,9 @@ package Src.Entity
     public function newArrow():Arrow
     {
       var power:Number = 2+stringDraw*5;
-      var angle:Number = (Math.PI/3)*(stringDraw+1.5);
+      var angle:Number = (Math.PI/3)*(stringDraw+Math.PI/2);
+      if(platformer.goingLeft)
+        angle = -angle;
       var worldRect:Rectangle = collider.worldRect;
       var midPoint:Point = Point.interpolate(worldRect.topLeft, worldRect.bottomRight, 0.5);
       //if(platformer.goingLeft)

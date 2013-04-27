@@ -53,6 +53,9 @@ package Src.Entity
       if(!grappling)
         return;
 
+      if(controller.jump)
+        grappling = false;
+
       collider.speed.x *= 0.99;
       collider.speed.y *= 0.99;
 
