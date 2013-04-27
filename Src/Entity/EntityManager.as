@@ -128,7 +128,8 @@ package Src.Entity
         for(x = bound.right; x >= bound.left; x--) {
           for(y = bound.bottom; y >= bound.top; y--) {
             var tile:Tile = game.tileMap.getTile(x, y);
-            if(tile.t != Tile.T_WALL)
+            var col:int = game.tileMap.getColFromTile(tile);
+            if((col & CCollider.COL_SOLID) == 0)
               continue;
             var tileRect:Rectangle = new Rectangle(x*size.x, y*size.y-1, size.x, size.y);
             if(!worldrect.intersects(tileRect))

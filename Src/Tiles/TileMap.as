@@ -135,15 +135,20 @@ package Src.Tiles
     {
       setTileByIndex(getIndex(x,y), tile);
     }
-    
-    public function getColAtPos(p:Point):int
+
+    public function getColFromTile(tile:Tile):int
     {
-      switch(getTileAtPos(p).t)
+      switch(tile.t)
       {
         case Tile.T_WALL: return CCollider.COL_SOLID;
         case Tile.T_GRAPPLE: return CCollider.COL_SOLID | CCollider.COL_GRAPPLE;
       }
       return CCollider.COL_NONE;
+    }
+    
+    public function getColAtPos(p:Point):int
+    {
+      return getColFromTile(getTileAtPos(p));
     }
 
     public function getColAtRect(r:Rectangle):int
