@@ -12,7 +12,7 @@ package Src.Tiles
 
   public class TileEditor
   {
-    private var tileMap:TileMap;
+    private var world:World;
     private var pallete:TileMap;
     private var index:int;
     private var selected:Tile;
@@ -20,14 +20,13 @@ package Src.Tiles
     private var game:Game;
     private var fileReference:FileReference;
     
-    public function TileEditor(tileMap:TileMap)
+    public function TileEditor(world:World)
     {
-      this.tileMap = tileMap;
+      this.world = world;
       
-      game = tileMap.game;
+      game = world.tileMap.game;
       selected = new Tile();            
-      pallete = new TileMap(game); 
-      pallete.reset(20, 20); // These 20's are just guesses
+      pallete = new TileMap(game, new Point(20,20)); 
       var y:int=0;
       for(var i:int=0; i<Tile.T_MAX; i++)
         y = fillOutPallete(i, 0, y);      
@@ -57,20 +56,20 @@ package Src.Tiles
     
     public function autoTile(x:int, y:int):void
     {
-      var t:Tile = tileMap.getTile(x, y);
+      var t:Tile = world.tileMap.getTile(x, y);
       if(t.t == Tile.T_ENTITY)
         return;
       var group:int = getTileGroup(t);
       var flags:int = 0;
 
       var checkTile:Tile;
-      checkTile = tileMap.getTile(x,y-1);
+      checkTile = world.tileMap.getTile(x,y-1);
       if(checkTile.t == t.t && getTileGroup(checkTile) == group) flags |= 1;
-      checkTile = tileMap.getTile(x+1,y);
+      checkTile = world.tileMap.getTile(x+1,y);
       if(checkTile.t == t.t && getTileGroup(checkTile) == group) flags |= 2;
-      checkTile = tileMap.getTile(x,y+1);
+      checkTile = world.tileMap.getTile(x,y+1);
       if(checkTile.t == t.t && getTileGroup(checkTile) == group) flags |= 4;
-      checkTile = tileMap.getTile(x-1,y);
+      checkTile = world.tileMap.getTile(x-1,y);
       if(checkTile.t == t.t && getTileGroup(checkTile) == group) flags |= 8;
       
       var allWall:Boolean = false;
@@ -97,13 +96,13 @@ package Src.Tiles
       {
         // is it center or inner corner?
         flags = 0;
-        checkTile = tileMap.getTile(x+1,y-1);
+        checkTile = world.tileMap.getTile(x+1,y-1);
         if(checkTile.t == t.t && getTileGroup(checkTile) == group) flags |= 1;
-        checkTile = tileMap.getTile(x+1,y+1);
+        checkTile = world.tileMap.getTile(x+1,y+1);
         if(checkTile.t == t.t && getTileGroup(checkTile) == group) flags |= 2;
-        checkTile = tileMap.getTile(x-1,y+1);
+        checkTile = world.tileMap.getTile(x-1,y+1);
         if(checkTile.t == t.t && getTileGroup(checkTile) == group) flags |= 4;
-        checkTile = tileMap.getTile(x-1,y-1);
+        checkTile = world.tileMap.getTile(x-1,y-1);
         if(checkTile.t == t.t && getTileGroup(checkTile) == group) flags |= 8;
         switch(flags)
         {
@@ -141,19 +140,19 @@ package Src.Tiles
       inPallete = game.input.keyDownDictionary[Input.KEY_SPACE];
 
       var mousePos:Point = getOffsetMouse();
-      index = tileMap.getIndexFromPos(mousePos);
+      index = world.tileMap.getIndexFromPos(mousePos);
       if(game.input.mouseHeld && !inPallete)
       {        
-        tileMap.setTileByIndex(index, selected);
+        world.tileMap.setTileByIndex(index, selected);
       }
       if(game.input.keyDownDictionary[Input.KEY_CONTROL])
       {
         if(inPallete) selected = pallete.getTileAtPos(mousePos);
-        else selected = tileMap.getTileAtPos(mousePos);
+        else selected = world.tileMap.getTileAtPos(mousePos);
       }
       if(game.input.keyDownDictionary[Input.KEY_SHIFT] && !inPallete)
       {
-        var p:Point = tileMap.getXY(index);
+        var p:Point = world.tileMap.getXY(index);
         autoTile(p.x, p.y);
         autoTile(p.x, p.y-1);
         autoTile(p.x+1, p.y);
@@ -164,12 +163,21 @@ package Src.Tiles
       if(game.input.keyPressedDictionary[Input.KEY_C])
         saveToFile("level.lev");
       if(game.input.keyPressedDictionary[Input.KEY_L])
-        loadFromFile();      
+        loadFromFile();
+
+      if(game.input.upKey(false))
+        world.moveScreen(new Point(0,-1));
+      if(game.input.rightKey(false))
+        world.moveScreen(new Point(1,0));
+      if(game.input.downKey(false))
+        world.moveScreen(new Point(0,1));
+      if(game.input.leftKey(false))
+        world.moveScreen(new Point(-1,0));
     }
     
     public function renderWithCam():void
     {
-      var xy:Point = tileMap.getXY(index);
+      var xy:Point = world.tileMap.getXY(index);
       var rect:Rectangle = new Rectangle(
         xy.x*TileMap.tileWidth, xy.y*TileMap.tileHeight,
         TileMap.tileWidth, TileMap.tileHeight);
@@ -184,7 +192,7 @@ package Src.Tiles
         pallete.render();
       }
 
-      var spr:SpriteDef = tileMap.sprites[selected.t];
+      var spr:SpriteDef = world.tileMap.sprites[selected.t];
       game.renderer.drawSprite(spr, 0, game.renderer.height-TileMap.tileHeight,
                                selected.xFrame, selected.yFrame);
       var rect:Rectangle = new Rectangle(
@@ -196,7 +204,7 @@ package Src.Tiles
     public function saveToFile(fileName:String):void    
     {
       var byteArray:ByteArray = new ByteArray();
-      tileMap.pack(byteArray);
+      world.pack(byteArray);
         
       fileReference = new FileReference()
       fileReference.save(byteArray, fileName);
@@ -219,7 +227,7 @@ package Src.Tiles
     {
       var byteArray:ByteArray = fileReference.data;
 
-      tileMap.unpack(byteArray);
+      world.unpack(byteArray);
     }    
   }
 }

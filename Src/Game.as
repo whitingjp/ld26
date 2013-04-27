@@ -38,7 +38,7 @@ package Src
     public var input:Input;
     public var renderer:Renderer;
     public var soundManager:SoundManager;
-    public var tileMap:TileMap;
+    public var world:World;
     public var tileEditor:TileEditor;
     public var frontEnd:Frontend;
     public var camera:Camera;
@@ -47,6 +47,10 @@ package Src
     [Embed(source="../level/level.lev", mimeType="application/octet-stream")]
     public static const TestLevelClass: Class;
     
+    public function get tileMap():TileMap
+    {
+      return world.tileMap;
+    }
 
     public function Game()
     {
@@ -54,11 +58,12 @@ package Src
       input = new Input(this);
       renderer = new Renderer();	  
       soundManager = new SoundManager();
-      tileMap = new TileMap(this);      
       frontEnd = new Frontend(this);
       camera = new Camera(this);
 
-      tileMap.unpack(new TestLevelClass as ByteArray);
+      world = new World(this);
+
+      world.unpack(new TestLevelClass as ByteArray);
     }
 
     public function init(w:int, h:int, pixelSize:int, targetFps:int, stage:Stage):void
@@ -69,7 +74,7 @@ package Src
       renderer.init(w, h, pixelSize);
       soundManager.init();
       input.init();
-      tileEditor = new TileEditor(tileMap);
+      tileEditor = new TileEditor(world);
 
       gameState = STATE_GAME;
       frontEnd.addScreen(new MainMenu());

@@ -34,9 +34,10 @@ package Src.Tiles
 
     private var seed:int;
     
-    public function TileMap(game:Game)
+    public function TileMap(game:Game, size:Point)
     {
-      reset(19*2,14*2);
+      // reset(19*2,14*2);
+      reset(size.x, size.y);
       this.game = game;
     }
     
@@ -207,13 +208,10 @@ package Src.Tiles
       byteArray.writeInt(height);
       for(var i:int=0; i<tiles.length; i++)
         tiles[i].addToByteArray(byteArray);
-      byteArray.compress();
     }
 
     public function unpack(byteArray:ByteArray):void
     {
-      byteArray.uncompress();
-           
       if(magic != byteArray.readInt())
       {
         trace("Not a game level file!");
