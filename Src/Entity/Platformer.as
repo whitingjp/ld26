@@ -17,9 +17,10 @@ package Src.Entity
 
     public function Platformer(pos:Point)
     {
-      sprite = new CSprite(this, new SpriteDef(0,0,16,16));
+      sprite = new CSprite(this, new SpriteDef(0,0,14,14,4,2));
       controller = new CPlayerController(this);
       collider = new CCollider(this);
+      collider.rect = new Rectangle(5,2,6,10.5);
       platformer = new CPlatformer(this, collider, sprite, controller);      
       reset();
       collider.pos = pos;
@@ -40,7 +41,7 @@ package Src.Entity
     
     public override function render():void
     {
-      sprite.render(collider.pos);
+      platformer.render();
     }
   }
 }

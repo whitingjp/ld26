@@ -14,6 +14,8 @@ package Src.Entity
     private var controller:CController;
     private var e:Entity;
     public var goingLeft:Boolean;
+    public var anim:Number;
+    public var inAir:Boolean;
 
     public function CPlatformer(e:Entity, collider:CCollider, sprite:CSprite, controller:CController)
     {
@@ -26,7 +28,9 @@ package Src.Entity
 
     public function reset():void
     {
+      anim = 0;
       goingLeft = false;
+      inAir = false;
     }
 
     public function updateRun():void
@@ -45,6 +49,11 @@ package Src.Entity
       }
       if(!controller.goLeft && !controller.goRight)
         collider.speed.x /= 1.7;
+      else
+      {
+        anim = anim + 0.05;
+        while(anim > 1) anim--;
+      }
 
       if(controller.goLeft && ! controller.goRight)
         goingLeft = true;
@@ -54,17 +63,12 @@ package Src.Entity
 
     public function updateJump():void
     {
-      var floorRect:Rectangle = collider.worldRect;
-      floorRect.offset(0,2);
-      floorRect.inflate(-2,0);
-      var col:int = e.game.tileMap.getColAtRect(floorRect);
-      if(col & CCollider.COL_SOLID && controller.goUp)
-      {
-        collider.speed.y -= 5;
-      }
-      collider.speed.y += 0.2;
-      if(collider.speed.y > 2)
-        collider.speed.y = 2;
+      inAir = (collider.collided & 1) == 0;
+      if(!inAir && controller.goUp)
+        collider.speed.y = -1.5;
+      collider.speed.y += 0.1;
+      if(collider.speed.y > 4)
+        collider.speed.y = 4;
     }
 
     public function update():void
@@ -72,13 +76,20 @@ package Src.Entity
       controller.update(); 
       updateRun();
       updateJump();
-      collider.update();
     }
  
     public function render(pos:Point=null):void
     {
       if(pos == null)
         pos = collider.pos;
+      sprite.frame.x = anim*2;
+      if(inAir)
+        sprite.frame.x = 2;
+      if(goingLeft)
+        sprite.frame.y = 1;
+      else
+        sprite.frame.y = 0; 
+
       sprite.render(pos);
     }
   }

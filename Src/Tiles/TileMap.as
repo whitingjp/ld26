@@ -14,8 +14,8 @@ package Src.Tiles
   {  
     private static const OBJ_START:int=0;
   
-    public static var tileWidth:int=16;
-    public static var tileHeight:int=16;
+    public static var tileWidth:int=14;
+    public static var tileHeight:int=14;
     
     private static var tileSpr:String="walls";
     private static var objSpr:String="objects";    
@@ -43,8 +43,8 @@ package Src.Tiles
       
       sprites = new Array();
       sprites[Tile.T_NONE] = new SpriteDef(0,0,1,1);
-      sprites[Tile.T_WALL] = new SpriteDef(0,16,16,16,5,4);
-      sprites[Tile.T_ENTITY] = new SpriteDef(32,0,16,16,1,1);
+      sprites[Tile.T_WALL] = new SpriteDef(0,56,14,14,1,1);
+      sprites[Tile.T_ENTITY] = new SpriteDef(0,84,14,14,1,1);
       
       tiles = new Array();
       for(var i:int=0; i<width*height; i++)

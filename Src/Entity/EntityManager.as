@@ -36,8 +36,11 @@ package Src.Entity
       for(i=0; i<entities.length; i++)
         entities[i].update();
       clearCollided();
+      move(true);
+      tileResolve(true);
+      move(false);
+      tileResolve(false);
       resolve();
-      tileResolve();
       entities = entities.filter(isAlive);
     }
 
@@ -57,6 +60,19 @@ package Src.Entity
       for(var i:int = 0; i < entities.length; i++)
         if(entities[i].hasOwnProperty("collider"))
           entities[i].collider.collided = false;
+    }
+
+    private function move(isX:Boolean):void
+    {
+      for(var i:int = 0; i < entities.length; i++)
+      {
+        if(!entities[i].hasOwnProperty("collider"))
+          continue;
+        if(isX)
+          entities[i].collider.pos.x += entities[i].collider.speed.x;
+        else
+          entities[i].collider.pos.y += entities[i].collider.speed.y;
+      }
     }
 
     private function resolve():Boolean
@@ -93,7 +109,7 @@ package Src.Entity
       return anyOverlaps;
     }
 
-    private function tileResolve():void
+    private function tileResolve(isX:Boolean):void
     {
       var i:int
       var size:Point = new Point(TileMap.tileWidth, TileMap.tileHeight);
@@ -109,28 +125,28 @@ package Src.Entity
         bound.bottom = int(bound.bottom / size.y);
         var x:int;
         var y:int;
-        var xory:int;
-        // push y
-        for(xory = 0; xory < 2; xory++) {
-          for(x = bound.right; x >= bound.left; x--) {
-            for(y = bound.bottom; y >= bound.top; y--) {
-              var tile:Tile = game.tileMap.getTile(x, y);
-              if(tile.t != Tile.T_WALL)
-                continue;
-              var tileRect:Rectangle = new Rectangle(x*size.x, y*size.y-1, size.x, size.y);
-              if(!worldrect.intersects(tileRect))
-                continue;
-              entities[i].collider.collided = true;
-              if(!entities[i].collider.resolve)
-                continue;              
-              var minmove:Point = minMove(tileRect, worldrect);
-              if(xory == 0)
-                minmove.x = 0;
-              else
-                minmove.y = 0;
-              entities[i].collider.pos = entities[i].collider.pos.add(minmove);
-              worldrect = entities[i].collider.worldRect;
-            }
+        for(x = bound.right; x >= bound.left; x--) {
+          for(y = bound.bottom; y >= bound.top; y--) {
+            var tile:Tile = game.tileMap.getTile(x, y);
+            if(tile.t != Tile.T_WALL)
+              continue;
+            var tileRect:Rectangle = new Rectangle(x*size.x, y*size.y-1, size.x, size.y);
+            if(!worldrect.intersects(tileRect))
+              continue;
+            entities[i].collider.collided = true;
+            if(!entities[i].collider.resolve)
+              continue;              
+            var minmove:Point = minMove(tileRect, worldrect);
+            if(!isX)
+              minmove.x = 0;
+            else
+              minmove.y = 0;
+            if(minmove.y < 0) entities[i].collider.collided |= 1;
+            if(minmove.x > 0) entities[i].collider.collided |= 2;
+            if(minmove.y > 0) entities[i].collider.collided |= 4;
+            if(minmove.x < 0) entities[i].collider.collided |= 8;
+            entities[i].collider.pos = entities[i].collider.pos.add(minmove);
+            worldrect = entities[i].collider.worldRect;
           }
         }
       }

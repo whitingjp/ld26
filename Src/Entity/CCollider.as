@@ -18,7 +18,7 @@ package Src.Entity
     public var speed:Point;
     public var rect:Rectangle;
     public var resolve:Boolean;
-    public var collided:Boolean;
+    public var collided:int;
     public var elasticity:Number;
   
     public function CCollider(e:Entity)
@@ -28,7 +28,7 @@ package Src.Entity
       speed = new Point(0,0);
       rect = new Rectangle(0,0,8,8);
       resolve = true;
-      collided = false;      
+      collided = 0;      
       elasticity = 0;
     }
     
@@ -37,12 +37,6 @@ package Src.Entity
       var r:Rectangle = rect.clone();
       r.offsetPoint(pos);
       return r;
-    }
-    
-    public function update():void
-    {
-      pos.x += speed.x;
-      pos.y += speed.y;
-    }
+    }    
   }
 }
