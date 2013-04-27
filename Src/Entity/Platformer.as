@@ -13,6 +13,7 @@ package Src.Entity
     public var collider:CCollider;
     public var controller:CController;
     public var sprite:CSprite;
+    public var sack:CSprite;
 
     public var platformer:CPlatformer;
     public var rope:CRope;
@@ -26,9 +27,12 @@ package Src.Entity
     public static const MOVE_CLIMB:int = 2;
     public var moveMode:int;
 
+    public var brace:int;
+
     public function Platformer(pos:Point)
     {
       sprite = new CSprite(this, new SpriteDef(0,0,14,14,7,2));
+      sack = new CSprite(this, new SpriteDef(84,84,14,14,6,1));
       controller = new CPlayerController(this);
       collider = new CCollider(this);
       collider.rect = new Rectangle(2,-1,10,14);
@@ -40,6 +44,7 @@ package Src.Entity
       shooting = false;
       stringDraw = 0;
       moveMode = MOVE_PLATFORM;
+      brace = 0;
     }
 
     public function reset():void
@@ -80,6 +85,8 @@ package Src.Entity
       platformer.disableMove = shooting || moveMode != MOVE_PLATFORM;
       rope.update();
       climb.update();
+      if(brace > 5)
+        brace = 5;
     }
 
     public function newArrow():Arrow
@@ -124,6 +131,9 @@ package Src.Entity
         arrow.renderTrail();
       }
       rope.render();
+
+      sack.frame.x = brace;
+      sack.render(new Point(0,0));
     }
   }
 }

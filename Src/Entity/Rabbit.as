@@ -74,7 +74,10 @@ package Src.Entity
         if(gored && entities[i] is Platformer)
         {
           if(entities[i].collider.worldRect.intersects(collider.worldRect))
+          {
             alive = false;
+            entities[i].brace++;
+          }
         }
       }
     }
