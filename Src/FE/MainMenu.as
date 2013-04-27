@@ -7,6 +7,7 @@ package Src.FE
   import flash.utils.Dictionary;
   import Src.Tiles.*;
   import Src.Gfx.*;
+  import Src.*;
 
   public class MainMenu extends Screen
   {
@@ -61,7 +62,8 @@ package Src.FE
 
       kidAnim += happy ? 0.04 : 0.005;
       while(kidAnim >= 1) kidAnim--;
-
+      if(pos.x > 86)
+        game.changeState(Game.STATE_GAME);
     }
 
     public override function render():void

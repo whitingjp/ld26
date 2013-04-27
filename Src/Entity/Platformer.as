@@ -7,6 +7,7 @@ package Src.Entity
   import flash.utils.Dictionary;
   import Src.Tiles.*;
   import Src.Gfx.*;
+  import Src.*;
 
   public class Platformer extends Entity
   {
@@ -95,8 +96,15 @@ package Src.Entity
       }
       if(collider.center.x < 0)
       {
-        game.world.moveScreen(new Point(-1,0), this);
-        collider.pos.x += TileMap.tileWidth*game.tileMap.width;
+        if(game.world.pos.x == 0)
+        {
+          game.changeState(Game.STATE_FE);
+        }
+        else
+        {
+          game.world.moveScreen(new Point(-1,0), this);
+          collider.pos.x += TileMap.tileWidth*game.tileMap.width;
+        }
       }
       if(collider.center.y > TileMap.tileHeight*game.tileMap.height)
       {

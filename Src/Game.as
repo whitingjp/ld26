@@ -103,8 +103,7 @@ package Src
         if(gameState == STATE_GAME)
           changeState(STATE_EDITING);
         else
-          changeState(STATE_GAME);
-        resetEntities();
+          changeState(STATE_GAME);        
       }
         
       // Update input last, so mouse presses etc. will register first..
@@ -178,6 +177,7 @@ package Src
     public function changeState(state:int):void
     {
       gameState = state;
+      resetEntities();
     }
   }
 }
