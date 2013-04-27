@@ -44,7 +44,9 @@ package Src.Tiles
       sprites = new Array();
       sprites[Tile.T_NONE] = new SpriteDef(0,0,1,1);
       sprites[Tile.T_WALL] = new SpriteDef(0,56,14,14,1,1);
+      sprites[Tile.T_GRAPPLE] = new SpriteDef(210,56,14,14,1,1);
       sprites[Tile.T_ENTITY] = new SpriteDef(0,84,14,14,1,1);
+
       
       tiles = new Array();
       for(var i:int=0; i<width*height; i++)
@@ -60,6 +62,7 @@ package Src.Tiles
       getTile(7,7).t = Tile.T_WALL;
       getTile(10,7).t = Tile.T_WALL;
       getTile(11,7).t = Tile.T_WALL;
+      getTile(7,5).t = Tile.T_GRAPPLE;
     }
     
     public function spawnEntities():void
@@ -146,6 +149,7 @@ package Src.Tiles
       switch(getTileAtPos(p).t)
       {
         case Tile.T_WALL: return CCollider.COL_SOLID;
+        case Tile.T_GRAPPLE: return CCollider.COL_SOLID | CCollider.COL_GRAPPLE;
       }
       return CCollider.COL_NONE;
     }

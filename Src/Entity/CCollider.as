@@ -12,6 +12,7 @@ package Src.Entity
     public static const COL_NONE:int = 0;
     public static const COL_SOLID:int = 1;
     public static const COL_HURT:int = 2;
+    public static const COL_GRAPPLE:int = 4;
   
     private var e:Entity;
     public var pos:Point;

@@ -12,6 +12,7 @@ package Src.Entity
   {
     public var collider:CCollider;
     public var sprite:CSprite;
+    public var grapple:Boolean;
 
     public function Arrow(pos:Point, speed:Point)
     {
@@ -32,6 +33,8 @@ package Src.Entity
       var col:int = game.tileMap.getColAtRect(worldRect);
       if(col & CCollider.COL_SOLID)
         alive = false;
+      if(col & CCollider.COL_GRAPPLE)
+        grapple = true;
     }
 
     public override function render():void
@@ -45,8 +48,31 @@ package Src.Entity
       sprite.render(collider.pos);
     }
 
+    public function willGrapple():Boolean
+    {
+      var ret:Boolean = false;
+      var savePos:Point = collider.pos.clone();
+      var saveSpeed:Point = collider.speed.clone();
+      for(var i:int=0; i<30; i++)
+      {
+        update();
+        collider.pos.x += collider.speed.x;
+        collider.pos.y += collider.speed.y;
+        if(!alive)
+          break;
+      }
+      if(grapple)
+        ret = true;
+      collider.pos = savePos;
+      collider.speed = saveSpeed;
+      alive = true;
+      grapple = false;
+      return ret;
+    }
+
     public function renderTrail():void
     {
+      var goingToGrapple:Boolean = willGrapple();
       for(var i:int=0; i<10; i++)
       {
         for(var j:int=0; j<3; j++)
@@ -57,7 +83,7 @@ package Src.Entity
         }
         if(!alive)
           break;
-        game.renderer.drawPixel(collider.pos, 0xaab0375f);
+        game.renderer.drawPixel(collider.pos, goingToGrapple ? 0xfffdbc : 0xb0375f);
       }
     }
   }  
