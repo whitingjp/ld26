@@ -26,6 +26,7 @@ package Src.Gfx
     
     // background
     public var bitmap:Bitmap;
+    public var febitmap:Bitmap;
 
     private var fadeSpeed:Number;
     private var fade:Number;
@@ -41,6 +42,9 @@ package Src.Gfx
     
       bitmap = new Bitmap(new BitmapData(width, height, false, 0xAAAAAA ) );
       bitmap.scaleX = bitmap.scaleY = pixelSize;
+
+      //febitmap = new Bitmap(new BitmapData(width/3, height/3, false, 0xAAAAAA ) );
+      //febitmap.scaleX = bitmap.scaleY = pixelSize*3;
     
       spriteSheetSrc = new spriteSheetClass() as BitmapAsset;
       spriteSheet = spriteSheetSrc.bitmapData;
@@ -58,11 +62,15 @@ package Src.Gfx
       drawRect(backBuffer.rect, clearColor);
     }
 
-    public function flip():void
+    public function flip(inFE:Boolean):void
     {
+      if(inFE)
+        bitmap.scaleX = bitmap.scaleY = 9;
+      else
+        bitmap.scaleX = bitmap.scaleY = 3;
       bitmap.bitmapData.fillRect( bitmap.bitmapData.rect, clearColor );
       bitmap.bitmapData.copyPixels(backBuffer, backBuffer.rect, new Point(0,0));
-    
+   
       // TODO handle fade again
     }
 

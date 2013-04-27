@@ -76,7 +76,7 @@ package Src
       input.init();
       tileEditor = new TileEditor(world);
 
-      gameState = STATE_GAME;
+      gameState = STATE_FE;
       frontEnd.addScreen(new MainMenu());
 
       fpsText = new TextField();
@@ -124,13 +124,16 @@ package Src
     {
       renderer.cls();
       
-      renderer.setCamera(camera);
-      tileMap.render();
-      entityManager.render();
-      if(gameState == STATE_EDITING)
-        tileEditor.renderWithCam();
-      renderer.setCamera();
-      entityManager.renderFE();
+      if(gameState != STATE_FE)
+      {
+        renderer.setCamera(camera);
+        tileMap.render();
+        entityManager.render();
+        if(gameState == STATE_EDITING)
+          tileEditor.renderWithCam();
+        renderer.setCamera();
+        entityManager.renderFE();
+      }
       if(gameState == STATE_EDITING)
         tileEditor.renderWithoutCam(); 
       if(gameState == STATE_FE)
@@ -141,7 +144,7 @@ package Src
         renderer.backBuffer.draw(fpsText);
       */
       
-      renderer.flip();
+      renderer.flip(gameState == STATE_FE);
     }
 
     public function enterFrame(event:Event):void
