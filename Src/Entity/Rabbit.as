@@ -14,6 +14,7 @@ package Src.Entity
     public var dir:int;
     public var anim:Number;
     public var goingLeft:Boolean;
+    public var gored:Boolean;
 
     public function Rabbit(pos:Point)
     {
@@ -24,12 +25,18 @@ package Src.Entity
       dir = Math.random()*3;
       goingLeft = false;
       anim = 0;
+      gored = false;
     }
 
     public override function update():void
     {
       if(Math.random() > 0.99)
         dir = Math.random()*3;
+      if(gored)
+      {
+        dir = 2;
+        collider.resolve = false;
+      }
       if(dir == 0)
       {
         collider.speed.x = -0.5;
@@ -42,17 +49,40 @@ package Src.Entity
       }
       else
         collider.speed.x = 0;
-      collider.speed.y = 1;
+      if(gored)
+        collider.speed.y = 0;
+      else
+        collider.speed.y = 1;
       if(dir != 2)
       {
         anim += 0.05;
         while(anim >= 1) anim--;
+      }
+
+      // look for arrows
+      var entities:Array = game.entityManager.entities;
+      for(var i:int=0; i<entities.length; i++)
+      {
+        if(entities[i] is Arrow)
+        {
+          if(entities[i].collider.worldRect.intersects(collider.worldRect))
+          {
+            gored = true;
+            entities[i].alive = false;
+          }
+        }
+        if(gored && entities[i] is Platformer)
+        {
+          if(entities[i].collider.worldRect.intersects(collider.worldRect))
+            alive = false;
+        }
       }
     }
 
     public override function render():void
     {
       sprite.frame.x = anim*2;
+      if(gored) sprite.frame.x += 2;
       sprite.frame.y = goingLeft ? 1:0;
       sprite.render(collider.pos);
     }
