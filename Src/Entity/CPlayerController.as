@@ -12,6 +12,6 @@ package Src.Entity
     public override function get goRight():Boolean { return e.game.input.rightKey(); }
     public override function get goDown():Boolean { return e.game.input.downKey(); }
     public override function get goLeft():Boolean { return e.game.input.leftKey(); }
-    public override function get doAction():Boolean { return e.game.input.actKey(false); }
+    public override function get doAction():Boolean { return e.game.input.actKey(); }
   }
 }

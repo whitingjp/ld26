@@ -14,6 +14,7 @@ package Src.Entity
     public var platformer:CPlatformer;
     public var controller:CController;
     public var sprite:CSprite;
+    public var shooting:Boolean;
 
     public function Platformer(pos:Point)
     {
@@ -24,6 +25,7 @@ package Src.Entity
       platformer = new CPlatformer(this, collider, sprite, controller);      
       reset();
       collider.pos = pos;
+      shooting = false;
     }
 
     public function reset():void
@@ -36,11 +38,30 @@ package Src.Entity
     public override function update():void
     {
       platformer.update();
-      //game.camera.setTarget(collider.pos);
+      //game.camera.setTarget(collider.pos);      
+      if(controller.doAction)
+      {
+        shooting = true;
+        platformer.disableMove = true;
+      } else
+      {
+        shooting = false;
+        platformer.disableMove = false;
+      }
     }    
     
     public override function render():void
     {
+      sprite.frame.x = platformer.anim*2;
+      if(platformer.inAir)
+        sprite.frame.x = 2;
+      if(shooting)
+        sprite.frame.x = 3;
+      if(platformer.goingLeft)
+        sprite.frame.y = 1;
+      else
+        sprite.frame.y = 0; 
+
       platformer.render();
     }
   }

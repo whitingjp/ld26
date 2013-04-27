@@ -16,6 +16,7 @@ package Src.Entity
     public var goingLeft:Boolean;
     public var anim:Number;
     public var inAir:Boolean;
+    public var disableMove:Boolean;
 
     public function CPlatformer(e:Entity, collider:CCollider, sprite:CSprite, controller:CController)
     {
@@ -31,23 +32,24 @@ package Src.Entity
       anim = 0;
       goingLeft = false;
       inAir = false;
+      disableMove = false;
     }
 
     public function updateRun():void
     {
-      if(controller.goLeft)
+      if(controller.goLeft && !disableMove)
       {
-        collider.speed.x -= 0.3;
+        collider.speed.x -= inAir ? 0.1 : 0.3;
         if(collider.speed.x < -1)
           collider.speed.x = -1;
       }
-      if(controller.goRight)
+      if(controller.goRight && !disableMove && !inAir)
       {
-        collider.speed.x += 0.3;
+        collider.speed.x += inAir ? 0.1 : 0.3;
         if(collider.speed.x > 1)
           collider.speed.x = 1;
       }
-      if(!controller.goLeft && !controller.goRight)
+      if(!inAir && ((!controller.goLeft && !controller.goRight) || disableMove))
         collider.speed.x /= 1.7;
       else
       {
@@ -70,7 +72,7 @@ package Src.Entity
       inAir = (col & CCollider.COL_SOLID) == 0;
       if(!inAir)
         collider.speed.y = 0;
-      if(!inAir && controller.goUp)
+      if(!inAir && controller.goUp && !disableMove)
         collider.speed.y = -1.5;
       collider.speed.y += 0.1;
       if(collider.speed.y > 4)
@@ -88,13 +90,6 @@ package Src.Entity
     {
       if(pos == null)
         pos = collider.pos;
-      sprite.frame.x = anim*2;
-      if(inAir)
-        sprite.frame.x = 2;
-      if(goingLeft)
-        sprite.frame.y = 1;
-      else
-        sprite.frame.y = 0; 
 
       sprite.render(pos);
     }
