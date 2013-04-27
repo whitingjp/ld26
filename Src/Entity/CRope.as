@@ -30,7 +30,7 @@ package Src.Entity
       grappling = true;
       grapplePoint = pos.clone();	
       var distance:Number = Point.distance(collider.center, grapplePoint);
-      targetLength = distance*0.8;
+      targetLength = distance*0.75;
     }
 
     public function render():void
@@ -76,12 +76,12 @@ package Src.Entity
         return;
 
       var dotProduct:Number = diff.x*collider.speed.x + diff.y*collider.speed.y;
-      var scalar:Number = (dotProduct / distance);
+      var scalar:Number = (dotProduct / distance)/3;
 
       diff.normalize(-scalar);
       collider.speed = collider.speed.add(diff);
         
-      var factor:Number = (distance - targetLength)/2;
+      var factor:Number = (distance - targetLength)/3;
       diff.normalize(factor);
       collider.speed = collider.speed.add(diff);
 
