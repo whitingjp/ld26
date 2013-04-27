@@ -50,6 +50,12 @@ package Src.Entity
         entities[i].render();
     }
 
+    public function renderFE():void
+    {
+      for(var i:int=0; i<entities.length; i++)
+        entities[i].renderFE();
+    }
+
     private function isAlive(element:*, index:int, arr:Array):Boolean
     {
       return element.alive;

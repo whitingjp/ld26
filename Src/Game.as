@@ -125,10 +125,11 @@ package Src
       if(gameState == STATE_EDITING)
         tileEditor.renderWithCam();
       renderer.setCamera();
+      entityManager.renderFE();
       if(gameState == STATE_EDITING)
         tileEditor.renderWithoutCam(); 
       if(gameState == STATE_FE)
-        frontEnd.render();
+        frontEnd.render();      
 
       /*
       if(!IS_FINAL)

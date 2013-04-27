@@ -58,7 +58,7 @@ package Src.Entity
     {
       if(moveMode != MOVE_CLIMB)
         platformer.update();
-      //game.camera.setTarget(collider.pos);      
+      game.camera.setTarget(collider.pos);      
       if(controller.doAction)
       {
         shooting = true;
@@ -131,6 +131,10 @@ package Src.Entity
         arrow.renderTrail();
       }
       rope.render();
+    }
+
+    public override function renderFE():void
+    {
 
       sack.frame.x = brace;
       sack.render(new Point(0,0));

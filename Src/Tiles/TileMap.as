@@ -36,7 +36,7 @@ package Src.Tiles
     
     public function TileMap(game:Game)
     {
-      reset(19,14);
+      reset(19*2,14*2);
       this.game = game;
     }
     
@@ -51,6 +51,7 @@ package Src.Tiles
       sprites[Tile.T_GRAPPLE] = new SpriteDef(210,56,14,14,1,1);
       sprites[Tile.T_CLIMB] = new SpriteDef(140,14,14,14,1,1);
       sprites[Tile.T_ENTITY] = new SpriteDef(0,84,14,14,2,1);
+      sprites[Tile.T_EXIT] = new SpriteDef(28,70,14,14,2,1);
 
       decorations = new Array();
       decorations[0] = new SpriteDef(0,42,14,14,6,1);
