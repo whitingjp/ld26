@@ -16,6 +16,7 @@ package Src.Entity
     public var sprite:CSprite;
     public var rope:CRope;
     public var shooting:Boolean;
+    public var stringDraw:Number;
 
     public function Platformer(pos:Point)
     {
@@ -28,6 +29,7 @@ package Src.Entity
       reset();
       collider.pos = pos;
       shooting = false;
+      stringDraw = 0;
     }
 
     public function reset():void
@@ -44,12 +46,17 @@ package Src.Entity
       if(controller.doAction)
       {
         shooting = true;
+        stringDraw += 0.02;
+        if(stringDraw > 1)
+          stringDraw = 1;
       } else
       {
         if(shooting)
           game.entityManager.push(newArrow());
         shooting = false;
+        stringDraw = 0;
       }
+
 
       platformer.disableMove = shooting || rope.grappling;
       rope.update();
@@ -57,12 +64,14 @@ package Src.Entity
 
     public function newArrow():Arrow
     {
+      var power:Number = 2+stringDraw*5;
+      var angle:Number = (Math.PI/3)*(stringDraw+1.5);
       var worldRect:Rectangle = collider.worldRect;
       var midPoint:Point = Point.interpolate(worldRect.topLeft, worldRect.bottomRight, 0.5);
-      if(platformer.goingLeft)
-        return new Arrow(midPoint, new Point(-3,-3), rope);
-      else
-        return new Arrow(midPoint, new Point(3,-3), rope);
+      //if(platformer.goingLeft)
+        //return new Arrow(midPoint, new Point(-power,-power), rope);
+      //else
+      return new Arrow(midPoint, new Point(Math.sin(angle)*power, Math.cos(angle)*power), rope);
     }
     
     public override function render():void

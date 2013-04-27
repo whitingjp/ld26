@@ -27,7 +27,6 @@ package Src.Entity
 
     public function grapple(pos:Point):void
     {
-      trace('Grappling: ', pos.x, pos.y);
       grappling = true;
       grapplePoint = pos.clone();	
       var distance:Number = Point.distance(collider.center, grapplePoint);
