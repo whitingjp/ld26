@@ -98,6 +98,16 @@ package Src.Entity
         game.world.moveScreen(new Point(-1,0), this);
         collider.pos.x += TileMap.tileWidth*game.tileMap.width;
       }
+      if(collider.center.y > TileMap.tileHeight*game.tileMap.height)
+      {
+        // fell into a pit
+        game.world.moveScreen(new Point(Math.random()*game.world.width, 1));
+      }
+      if(collider.center.y < 0)
+      {
+        // climbed out of pit
+        game.world.moveScreen(new Point(1-game.world.pos.x, -1));
+      }
     }
 
     public function newArrow():Arrow

@@ -97,12 +97,18 @@ package Src.Tiles
       pos = pos.add(diff);
       while(pos.x >= width) pos.x -= width;
       while(pos.y >= height) pos.y -= height;
+      if(game.getState() == Game.STATE_EDITING)
+        return;
+      game.entityManager.reset();
       if(voyager)
-      {
-        game.entityManager.reset();
+      {        
         tilemaps[getIndexFromPos(pos)].spawnEntities(true);
         game.entityManager.push(voyager);
+      } else
+      {
+        tilemaps[getIndexFromPos(pos)].spawnEntities(false);
       }
+
     }
   }
 }
