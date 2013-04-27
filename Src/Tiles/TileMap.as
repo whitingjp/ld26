@@ -52,17 +52,9 @@ package Src.Tiles
       for(var i:int=0; i<width*height; i++)
           tiles.push(new Tile());
 
-      getTile(1,4).t = Tile.T_ENTITY;
-      getTile(0,7).t = Tile.T_WALL;
-      getTile(1,7).t = Tile.T_WALL;
-      getTile(2,7).t = Tile.T_WALL;
-      getTile(3,7).t = Tile.T_WALL;
-      getTile(4,7).t = Tile.T_WALL;
-      getTile(6,7).t = Tile.T_WALL;
-      getTile(7,7).t = Tile.T_WALL;
-      getTile(10,7).t = Tile.T_WALL;
-      getTile(11,7).t = Tile.T_WALL;
-      getTile(7,5).t = Tile.T_GRAPPLE;
+      getTile(0,3).t = Tile.T_ENTITY;
+      getTile(0,5).t = Tile.T_WALL;
+      getTile(5,3).t = Tile.T_GRAPPLE;
     }
     
     public function spawnEntities():void

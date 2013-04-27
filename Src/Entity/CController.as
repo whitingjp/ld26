@@ -2,6 +2,7 @@ package Src.Entity
 {
   public class CController
   {
+  	public function get jump():Boolean { return false; }
     public function get goUp():Boolean { return false; }
     public function get goRight():Boolean { return false; }
     public function get goDown():Boolean { return false; }

@@ -53,21 +53,40 @@ package Src.Entity
     {
       if(!grappling)
         return;
+
+      collider.speed.x *= 0.99;
+      collider.speed.y *= 0.99;
+
       var center:Point = collider.center;
       var diff:Point = grapplePoint.subtract(center);
-      var distance:Number = Point.distance(center, grapplePoint);
+      var distance:Number = diff.length;
+
+      if(controller.goUp)
+        targetLength -= 0.5;
+      if(controller.goDown)
+        targetLength += 0.5;
+      if(targetLength < 30)
+        targetLength = 30;
+      if(targetLength > 75)
+        targetLength = 75;
+
       if(distance < targetLength)
         return;
-      var factor:Number = (distance - targetLength)/25;
+
+      var dotProduct:Number = diff.x*collider.speed.x + diff.y*collider.speed.y;
+      var scalar:Number = (dotProduct / distance);
+
+      diff.normalize(-scalar);
+      collider.speed = collider.speed.add(diff);
+        
+      var factor:Number = (distance - targetLength)/2;
       diff.normalize(factor);
       collider.speed = collider.speed.add(diff);
-      collider.speed.x *= 0.95;
-      collider.speed.y *= 0.95;
 
-      if(controller.goLeft && !controller.goRight)
-        collider.speed.x -= 0.1;
-      if(controller.goRight && ! controller.goLeft)
-        collider.speed.x += 0.1;
+      if(controller.goLeft)
+        collider.speed.x -= 0.025;
+      if(controller.goRight)
+        collider.speed.x += 0.025;      
     }
   }
 }
