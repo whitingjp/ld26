@@ -70,7 +70,7 @@ package Src.Tiles
       getTile(5,3).t = Tile.T_GRAPPLE;
     }
     
-    public function spawnEntities():void
+    public function spawnEntities(hasVoyager:Boolean=false):void
     {
       for(var i:int=0; i<tiles.length; i++)
       {
@@ -81,7 +81,8 @@ package Src.Tiles
         switch(tiles[i].xFrame)
         {
           case OBJ_START:
-            game.entityManager.push(new Platformer(p));
+            if(!hasVoyager)
+              game.entityManager.push(new Platformer(p));
             break;
           case OBJ_RABBIT:
             game.entityManager.push(new Rabbit(p));
@@ -126,10 +127,10 @@ package Src.Tiles
     
     public function getIndex(x:int, y:int):int
     {
-      while(x < 0) x+=width;
-      while(x >= width) x-=width;
-      while(y < 0) y+=height;
-      while(y >= height) y-=height;
+      if(x < 0) return -1;
+      if(x >= width) return -1;
+      if(y < 0) return -1;
+      if(y >= height) return -1;
       return x+y*width;
     }
     
@@ -142,6 +143,8 @@ package Src.Tiles
     
     public function getTileFromIndex(i:int):Tile
     {
+      if(i == -1)
+        return new Tile();
       return tiles[i];
     }    
         

@@ -87,6 +87,17 @@ package Src.Entity
       climb.update();
       if(brace > 5)
         brace = 5;
+
+      if(collider.center.x > TileMap.tileWidth*game.tileMap.width)
+      {
+        collider.pos.x -= TileMap.tileWidth*game.tileMap.width;
+        game.world.moveScreen(new Point(1,0), this);        
+      }
+      if(collider.center.x < 0)
+      {
+        game.world.moveScreen(new Point(-1,0), this);
+        collider.pos.x += TileMap.tileWidth*game.tileMap.width;
+      }
     }
 
     public function newArrow():Arrow

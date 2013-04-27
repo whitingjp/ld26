@@ -26,9 +26,9 @@ package Src.Tiles
     public function World(game:Game)
     {
       this.game = game;
-      width = 6;
-      height = 3;      
-      reset(6,3);      
+      width = 10;
+      height = 2;      
+      reset(width, height);      
     }
 
     public function reset(width:int, height:int):void
@@ -92,11 +92,17 @@ package Src.Tiles
       return tilemaps[getIndexFromPos(pos)];
     }
 
-    public function moveScreen(diff:Point):void
+    public function moveScreen(diff:Point, voyager:Entity=null):void
     {
       pos = pos.add(diff);
       while(pos.x >= width) pos.x -= width;
       while(pos.y >= height) pos.y -= height;
+      if(voyager)
+      {
+        game.entityManager.reset();
+        tilemaps[getIndexFromPos(pos)].spawnEntities(true);
+        game.entityManager.push(voyager);
+      }
     }
   }
 }
