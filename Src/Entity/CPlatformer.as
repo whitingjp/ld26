@@ -62,8 +62,14 @@ package Src.Entity
     }
 
     public function updateJump():void
-    {
-      inAir = (collider.collided & 1) == 0;
+    {      
+      var floorRect:Rectangle = collider.worldRect;
+      floorRect.offset(0,1);
+      floorRect.inflate(-2,0);
+      var col:int = e.game.tileMap.getColAtRect(floorRect);
+      inAir = (col & CCollider.COL_SOLID) == 0;
+      if(!inAir)
+        collider.speed.y = 0;
       if(!inAir && controller.goUp)
         collider.speed.y = -1.5;
       collider.speed.y += 0.1;
