@@ -13,6 +13,7 @@ package Src.Tiles
   public class TileMap
   {  
     private static const OBJ_START:int=0;
+    private static const OBJ_RABBIT:int=1;
   
     public static var tileWidth:int=14;
     public static var tileHeight:int=14;
@@ -46,7 +47,7 @@ package Src.Tiles
       sprites[Tile.T_WALL] = new SpriteDef(0,56,14,14,1,1);
       sprites[Tile.T_GRAPPLE] = new SpriteDef(210,56,14,14,1,1);
       sprites[Tile.T_CLIMB] = new SpriteDef(140,14,14,14,1,1);
-      sprites[Tile.T_ENTITY] = new SpriteDef(0,84,14,14,1,1);
+      sprites[Tile.T_ENTITY] = new SpriteDef(0,84,14,14,2,1);
 
       
       tiles = new Array();
@@ -70,6 +71,9 @@ package Src.Tiles
         {
           case OBJ_START:
             game.entityManager.push(new Platformer(p));
+            break;
+          case OBJ_RABBIT:
+            game.entityManager.push(new Rabbit(p));
             break;
         }
       }
