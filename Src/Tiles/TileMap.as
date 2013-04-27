@@ -28,8 +28,11 @@ package Src.Tiles
     public var height:int;
     public var tiles:Array;
     public var sprites:Array;
+    public var decorations:Array;
     
     public var game:Game;
+
+    private var seed:int;
     
     public function TileMap(game:Game)
     {
@@ -44,10 +47,16 @@ package Src.Tiles
       
       sprites = new Array();
       sprites[Tile.T_NONE] = new SpriteDef(0,0,1,1);
-      sprites[Tile.T_WALL] = new SpriteDef(0,56,14,14,1,1);
+      sprites[Tile.T_WALL] = new SpriteDef(98,56,14,14,1,1);
       sprites[Tile.T_GRAPPLE] = new SpriteDef(210,56,14,14,1,1);
       sprites[Tile.T_CLIMB] = new SpriteDef(140,14,14,14,1,1);
       sprites[Tile.T_ENTITY] = new SpriteDef(0,84,14,14,2,1);
+
+      decorations = new Array();
+      decorations[0] = new SpriteDef(0,42,14,14,6,1);
+      decorations[1] = new SpriteDef(0,98,14,14,1,6);
+      decorations[2] = new SpriteDef(0,56,14,14,6,1);
+      decorations[3] = new SpriteDef(14,98,14,14,1,6);
 
       
       tiles = new Array();
@@ -79,13 +88,33 @@ package Src.Tiles
       }
     }
 
+    public function getNum(n:int):int
+    {
+      seed = (seed*9301+49297) % 233280;
+      return seed%n;
+    }
+
     public function render():void
     {
+      seed = 0;
       for(var i:int=0; i<tiles.length; i++)
       {
         var y:int = i/width;
         var x:int = i-(y*width);
         var tile:Tile = getTile(x,y);
+
+        if((getColFromTile(tile) & CCollider.COL_SOLID) == 0)
+        {
+          if(getColFromTile(getTile(x,y+1)) & CCollider.COL_SOLID)
+            game.renderer.drawSprite(decorations[0], x*tileWidth, y*tileHeight, getNum(6), 0);
+          if(getColFromTile(getTile(x+1,y)) & CCollider.COL_SOLID)
+            game.renderer.drawSprite(decorations[1], x*tileWidth, y*tileHeight, 0, getNum(6));
+          if(getColFromTile(getTile(x,y-1)) & CCollider.COL_SOLID)
+            game.renderer.drawSprite(decorations[2], x*tileWidth, y*tileHeight, getNum(6), 0);
+          if(getColFromTile(getTile(x-1,y)) & CCollider.COL_SOLID)
+            game.renderer.drawSprite(decorations[3], x*tileWidth, y*tileHeight, 0, getNum(6));
+        }
+
         if(tile.t == Tile.T_ENTITY && game.getState() != Game.STATE_EDITING)
           continue;
         var spr:SpriteDef = sprites[tile.t];  
