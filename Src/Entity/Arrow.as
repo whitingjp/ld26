@@ -44,5 +44,21 @@ package Src.Entity
       sprite.frame.x = 4*(angle/Math.PI);
       sprite.render(collider.pos);
     }
+
+    public function renderTrail():void
+    {
+      for(var i:int=0; i<10; i++)
+      {
+        for(var j:int=0; j<3; j++)
+        {
+          update();
+          collider.pos.x += collider.speed.x;
+          collider.pos.y += collider.speed.y;
+        }
+        if(!alive)
+          break;
+        game.renderer.drawPixel(collider.pos, 0xaab0375f);
+      }
+    }
   }  
 }

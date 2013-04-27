@@ -8,7 +8,7 @@ package Src.Entity
   public class Entity
   {
     public var alive:Boolean;
-    private var manager:EntityManager;
+    public var manager:EntityManager;
 
     public function Entity()
     {

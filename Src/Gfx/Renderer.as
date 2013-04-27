@@ -22,7 +22,7 @@ package Src.Gfx
     public var backBuffer:BitmapData;
 
     // colour to use to clear backbuffer with
-    public var clearColor:uint = 0xff0a0d0d;
+    public var clearColor:uint = 0xff42385e;
     
     // background
     public var bitmap:Bitmap;
@@ -75,6 +75,12 @@ package Src.Gfx
         y -= camera.pos.y;
       }
       backBuffer.copyPixels(spriteSheet, spr.getRect(xFrame, yFrame), new Point(x,y));
+    }
+
+    public function drawPixel(pos:Point, fillCol:uint):void
+    {
+      var rect:Rectangle = new Rectangle(pos.x, pos.y, 1, 1);
+      drawRect(rect, fillCol);
     }
     
     public function drawRect(rect:Rectangle, fillCol:uint):void

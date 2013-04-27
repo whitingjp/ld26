@@ -46,18 +46,21 @@ package Src.Entity
       } else
       {
         if(shooting)
-        {
-          var worldRect:Rectangle = collider.worldRect;
-          var midPoint:Point = Point.interpolate(worldRect.topLeft, worldRect.bottomRight, 0.5);
-          if(platformer.goingLeft)
-            game.entityManager.push(new Arrow(midPoint, new Point(-3,-3)));
-          else
-            game.entityManager.push(new Arrow(midPoint, new Point(3,-3)));
-        }
+          game.entityManager.push(newArrow());
         shooting = false;
         platformer.disableMove = false;
       }
-    }    
+    }
+
+    public function newArrow():Arrow
+    {
+      var worldRect:Rectangle = collider.worldRect;
+      var midPoint:Point = Point.interpolate(worldRect.topLeft, worldRect.bottomRight, 0.5);
+      if(platformer.goingLeft)
+        return new Arrow(midPoint, new Point(-3,-3));
+      else
+        return new Arrow(midPoint, new Point(3,-3));
+    }
     
     public override function render():void
     {
@@ -72,6 +75,13 @@ package Src.Entity
         sprite.frame.y = 0; 
 
       platformer.render();
+
+      if(shooting)
+      {
+        var arrow:Arrow = newArrow();
+        arrow.setManager(manager);
+        arrow.renderTrail();
+      }
     }
   }
 }
