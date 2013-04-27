@@ -13,15 +13,19 @@ package Src.Entity
     public var collider:CCollider;
     public var sprite:CSprite;
     public var grapple:Boolean;
+    public var rope:CRope;
+    public var simulation:Boolean;
 
-    public function Arrow(pos:Point, speed:Point)
+    public function Arrow(pos:Point, speed:Point, rope:CRope)
     {
+      this.rope = rope;
       sprite = new CSprite(this, new SpriteDef(70,0,3,3,4,1));
       collider = new CCollider(this);
-      collider.rect = new Rectangle(0,0,3,3);
+      collider.rect = new Rectangle(1,1,2,2);
       collider.resolve = false;
       collider.pos = pos.clone();
       collider.speed = speed.clone();
+      simulation = false;
     }
 
     public override function update():void
@@ -35,6 +39,8 @@ package Src.Entity
         alive = false;
       if(col & CCollider.COL_GRAPPLE)
         grapple = true;
+      if(grapple && !simulation)
+        rope.grapple(collider.pos);
     }
 
     public override function render():void
@@ -53,6 +59,7 @@ package Src.Entity
       var ret:Boolean = false;
       var savePos:Point = collider.pos.clone();
       var saveSpeed:Point = collider.speed.clone();
+      simulation = true;
       for(var i:int=0; i<30; i++)
       {
         update();
@@ -67,12 +74,14 @@ package Src.Entity
       collider.speed = saveSpeed;
       alive = true;
       grapple = false;
+      simulation = false;
       return ret;
     }
 
     public function renderTrail():void
     {
       var goingToGrapple:Boolean = willGrapple();
+      simulation = true;
       for(var i:int=0; i<10; i++)
       {
         for(var j:int=0; j<3; j++)
@@ -85,6 +94,7 @@ package Src.Entity
           break;
         game.renderer.drawPixel(collider.pos, goingToGrapple ? 0xfffdbc : 0xb0375f);
       }
+      simulation = false;
     }
   }  
 }

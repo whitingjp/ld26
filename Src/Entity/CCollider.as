@@ -38,6 +38,15 @@ package Src.Entity
       var r:Rectangle = rect.clone();
       r.offsetPoint(pos);
       return r;
-    }    
+    }
+
+    public function get center():Point
+    {
+      var rect:Rectangle = worldRect;
+      var center:Point = rect.topLeft.add(rect.bottomRight)
+      center.x /= 2;
+      center.y /= 2;
+      return center;
+    }
   }
 }

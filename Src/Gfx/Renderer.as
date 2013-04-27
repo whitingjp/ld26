@@ -79,8 +79,7 @@ package Src.Gfx
 
     public function drawPixel(pos:Point, fillCol:uint):void
     {
-      var rect:Rectangle = new Rectangle(pos.x, pos.y, 1, 1);
-      drawRect(rect, fillCol);
+      backBuffer.setPixel(pos.x, pos.y, fillCol);
     }
     
     public function drawRect(rect:Rectangle, fillCol:uint):void

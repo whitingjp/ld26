@@ -14,15 +14,17 @@ package Src.Entity
     public var platformer:CPlatformer;
     public var controller:CController;
     public var sprite:CSprite;
+    public var rope:CRope;
     public var shooting:Boolean;
 
     public function Platformer(pos:Point)
     {
-      sprite = new CSprite(this, new SpriteDef(0,0,14,14,4,2));
+      sprite = new CSprite(this, new SpriteDef(0,0,14,14,5,2));
       controller = new CPlayerController(this);
       collider = new CCollider(this);
       collider.rect = new Rectangle(2,-1,10,14);
       platformer = new CPlatformer(this, collider, sprite, controller);      
+      rope = new CRope(this, collider, controller);
       reset();
       collider.pos = pos;
       shooting = false;
@@ -42,14 +44,15 @@ package Src.Entity
       if(controller.doAction)
       {
         shooting = true;
-        platformer.disableMove = true;
       } else
       {
         if(shooting)
           game.entityManager.push(newArrow());
         shooting = false;
-        platformer.disableMove = false;
       }
+
+      platformer.disableMove = shooting || rope.grappling;
+      rope.update();
     }
 
     public function newArrow():Arrow
@@ -57,9 +60,9 @@ package Src.Entity
       var worldRect:Rectangle = collider.worldRect;
       var midPoint:Point = Point.interpolate(worldRect.topLeft, worldRect.bottomRight, 0.5);
       if(platformer.goingLeft)
-        return new Arrow(midPoint, new Point(-3,-3));
+        return new Arrow(midPoint, new Point(-3,-3), rope);
       else
-        return new Arrow(midPoint, new Point(3,-3));
+        return new Arrow(midPoint, new Point(3,-3), rope);
     }
     
     public override function render():void
@@ -69,6 +72,9 @@ package Src.Entity
         sprite.frame.x = 2;
       if(shooting)
         sprite.frame.x = 3;
+      if(rope.grappling)
+        sprite.frame.x = 4;
+
       if(platformer.goingLeft)
         sprite.frame.y = 1;
       else
@@ -82,6 +88,7 @@ package Src.Entity
         arrow.setManager(manager);
         arrow.renderTrail();
       }
+      rope.render();
     }
   }
 }
