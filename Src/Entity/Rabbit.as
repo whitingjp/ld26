@@ -20,7 +20,7 @@ package Src.Entity
 
     public function Rabbit(pos:Point, uid:String)
     {
-      sprite = new CSprite(this, new SpriteDef(98,14,7,7,4,2));
+      sprite = new CSprite(this, new SpriteDef(98,28,7,7,4,2));
       collider = new CCollider(this);
       collider.rect = new Rectangle(0,0,7,6);
       collider.pos = pos;

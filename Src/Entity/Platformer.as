@@ -30,7 +30,7 @@ package Src.Entity
 
     public function Platformer(pos:Point)
     {
-      sprite = new CSprite(this, new SpriteDef(0,0,14,14,7,2));
+      sprite = new CSprite(this, new SpriteDef(0,0,14,14,10,2));
       sack = new CSprite(this, new SpriteDef(84,84,14,14,4,1));
       controller = new CPlayerController(this);
       collider = new CCollider(this);
@@ -142,19 +142,19 @@ package Src.Entity
     public override function render():void
     {
       sprite.frame.x = platformer.anim*2;
-      if(platformer.inAir)
-        sprite.frame.x = 2;
       if(shooting)
         sprite.frame.x = 3;
+      if(platformer.inAir)
+        sprite.frame.x = shooting ? 7 : 2;
       if(moveMode == MOVE_GRAPPLE)
-        sprite.frame.x = 4;
+        sprite.frame.x = shooting ? 8 : 4;
       if(moveMode == MOVE_CLIMB)
-        sprite.frame.x = 5+climb.anim*2;
+        sprite.frame.x = shooting ? 9 : (5+climb.anim*2);
 
-      if(platformer.goingLeft)
-        sprite.frame.y = 1;
+      if(moveMode == MOVE_CLIMB)
+        sprite.frame.y = climb.goingLeft ? 1 : 0;
       else
-        sprite.frame.y = 0; 
+        sprite.frame.y = platformer.goingLeft ? 1 : 0;
 
       platformer.render();
 

@@ -1,11 +1,11 @@
 TODO
-no animations for firing when climbing/jumping
 need a more convincing intro/hunger cutscene?
 need a completion cutscene
 need a meal cutscene
 saving would be good
 disable editor button
-
+mochibot
+sitelock?
 
 DONE
 climbing jumps need easier intro
@@ -15,3 +15,4 @@ climbing could stand to be a bit less fussy about grabs
 objective is not clear enough, probably worth doing a door-lock thing for the first one.
 changing firing direction when climbing is hard
 greebles have gaps
+no animations for firing when climbing/jumping/swingin
