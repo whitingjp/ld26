@@ -63,7 +63,10 @@ package Src.Tiles
       {
         if(falling && timer == 1)
           game.soundManager.playSound("tileshake");
-        timer -= 0.01;        
+        if(t == T_WALL)
+          timer -= 0.013;
+        else
+          timer -= 0.006;
         if(timer < 0)
         {
           for(var i:int=0; i<6; i++)
