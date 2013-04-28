@@ -70,6 +70,15 @@ package Src.Tiles
       getTile(0,5).t = Tile.T_WALL;
       getTile(5,3).t = Tile.T_GRAPPLE;
     }
+
+    public function resize(w:int, h:int):void
+    {
+      var oldTiles:Array = tiles;
+      var oldWidth:int = width;
+      reset(w, h);
+      for(var i:int=0; i<oldTiles.length; i++)
+        tiles[getIndex(i%oldWidth, i/oldWidth)] = oldTiles[i];
+    }
     
     public function spawnEntities(hasVoyager:Boolean=false):void
     {

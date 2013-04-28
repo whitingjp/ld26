@@ -150,29 +150,37 @@ package Src.Tiles
         if(inPallete) selected = pallete.getTileAtPos(mousePos);
         else selected = world.tileMap.getTileAtPos(mousePos);
       }
-      if(game.input.keyDownDictionary[Input.KEY_SHIFT] && !inPallete)
-      {
-        var p:Point = world.tileMap.getXY(index);
-        autoTile(p.x, p.y);
-        autoTile(p.x, p.y-1);
-        autoTile(p.x+1, p.y);
-        autoTile(p.x, p.y+1);
-        autoTile(p.x-1, p.y);        
-      }
       
       if(game.input.keyPressedDictionary[Input.KEY_C])
         saveToFile("level.lev");
       if(game.input.keyPressedDictionary[Input.KEY_L])
         loadFromFile();
 
-      if(game.input.upKey(false))
-        world.moveScreen(new Point(0,-1));
-      if(game.input.rightKey(false))
-        world.moveScreen(new Point(1,0));
-      if(game.input.downKey(false))
-        world.moveScreen(new Point(0,1));
-      if(game.input.leftKey(false))
-        world.moveScreen(new Point(-1,0));
+      if(game.input.keyDownDictionary[Input.KEY_SHIFT])
+      {
+        if(game.input.upKey(false))
+          world.moveScreen(new Point(0,-1));
+        if(game.input.rightKey(false))
+          world.moveScreen(new Point(1,0));
+        if(game.input.downKey(false))
+          world.moveScreen(new Point(0,1));
+        if(game.input.leftKey(false))
+          world.moveScreen(new Point(-1,0));
+      }
+
+      if(game.input.keyDownDictionary[Input.KEY_N])
+      {
+        var w:int = world.tileMap.width;
+        var h:int = world.tileMap.height;
+        if(game.input.upKey(false))
+          world.tileMap.resize(w, h-5);
+        if(game.input.rightKey(false))
+          world.tileMap.resize(w+5, h);
+        if(game.input.downKey(false))
+          world.tileMap.resize(w, h+5);
+        if(game.input.leftKey(false))
+          world.tileMap.resize(w-5, h);
+      }
     }
     
     public function renderWithCam():void
