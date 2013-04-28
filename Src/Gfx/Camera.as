@@ -12,6 +12,7 @@ package Src.Gfx
     private var target:Point;
     private var flickBook:Boolean;
     private var game:Game;
+    public var doJump:Boolean;
     
     public function Camera(game:Game, flickBook:Boolean=false)
     {
@@ -20,6 +21,7 @@ package Src.Gfx
       this.pos = new Point(0,0);
       this.floatPos = new Point(0,0);
       this.target = new Point(0,0);
+      this.doJump = false;
     }
     
     public function setTarget(target:Point):void
@@ -33,6 +35,19 @@ package Src.Gfx
       {
         this.target = new Point(target.x - game.renderer.width/2,
                                 target.y - game.renderer.height/2);
+      }
+      if(doJump)
+      {
+        var tileMapWidth:int = game.tileMap.width*TileMap.tileWidth;
+        tileMapWidth -= game.renderer.width;
+        if(this.target.x > tileMapWidth) this.target.x = tileMapWidth;
+        var tileMapHeight:int = game.tileMap.height*TileMap.tileHeight;
+        tileMapHeight -= game.renderer.height;
+        if(this.target.y > tileMapHeight) this.target.y = tileMapHeight;
+        if(this.target.x < 0) this.target.x = 0;
+        if(this.target.y < 0) this.target.y = 0;
+        floatPos = this.target.clone();
+        doJump = false;
       }
     }
     

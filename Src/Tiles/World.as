@@ -109,7 +109,7 @@ package Src.Tiles
         tilemaps[getIndexFromPos(pos)].spawnEntities(false);
       }
       tilemaps[getIndexFromPos(pos)].resetTimers();
-
+      game.camera.doJump = true;
     }
   }
 }

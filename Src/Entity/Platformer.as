@@ -88,6 +88,7 @@ package Src.Entity
       {
         collider.pos.x -= TileMap.tileWidth*game.tileMap.width;
         game.world.moveScreen(new Point(1,0), this);        
+        game.renderer.startFade(0x1b1927, 0.03);
       }
       if(collider.center.x < 0)
       {
@@ -99,6 +100,7 @@ package Src.Entity
         {
           game.world.moveScreen(new Point(-1,0), this);
           collider.pos.x += TileMap.tileWidth*game.tileMap.width;
+          game.renderer.startFade(0x1b1927, 0.03);
         }
       }
       if(collider.center.y > TileMap.tileHeight*game.tileMap.height)
@@ -111,6 +113,7 @@ package Src.Entity
       {
         // climbed out of pit
         game.world.moveScreen(new Point(1-game.world.pos.x, -1));
+        game.renderer.startFade(0x1b1927, 0.03);
       }
     }
 
