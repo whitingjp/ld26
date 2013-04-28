@@ -78,7 +78,7 @@ package Src.Entity
           if(entities[i].collider.worldRect.intersects(collider.worldRect))
           {
             alive = false;
-            if(game.brace < 5)
+            if(game.brace < 3)
             {
               game.brace++;
               game.deadRabbits.push(uid);

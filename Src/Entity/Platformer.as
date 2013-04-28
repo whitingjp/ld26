@@ -31,7 +31,7 @@ package Src.Entity
     public function Platformer(pos:Point)
     {
       sprite = new CSprite(this, new SpriteDef(0,0,14,14,7,2));
-      sack = new CSprite(this, new SpriteDef(84,84,14,14,6,1));
+      sack = new CSprite(this, new SpriteDef(84,84,14,14,4,1));
       controller = new CPlayerController(this);
       collider = new CCollider(this);
       collider.rect = new Rectangle(2,-1,10,14);
