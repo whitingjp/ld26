@@ -83,36 +83,7 @@ package Src.Entity
 
     private function resolve():Boolean
     {
-      var i:int;
-      var j:int;
-      var anyOverlaps:Boolean = false;
-      for(i = 0; i < entities.length; i++)
-      {
-        for(j = i + 1; j < entities.length; j++)
-        {
-          if(!entities[i].hasOwnProperty("collider") || !entities[j].hasOwnProperty("collider"))
-            continue;
-          var wi:Rectangle = entities[i].collider.worldRect;
-          var wj:Rectangle = entities[j].collider.worldRect;
-          if(!wi.intersects(wj))
-            continue;
-          entities[i].collider.collided = true;
-          entities[j].collider.collided = true;
-          if(!entities[i].collider.resolve || !entities[j].collider.resolve)
-            continue;
-          anyOverlaps = true;
-          var minmove:Point = minMove(wi, wj);
-          if(Math.abs(minmove.x) < Math.abs(minmove.y))
-            minmove.x = 0;
-          else
-            minmove.y = 0;
-          minmove.x /= 2;
-          minmove.y /= 2;
-          entities[i].collider.pos = entities[i].collider.pos.subtract(minmove)
-          entities[j].collider.pos = entities[j].collider.pos.add(minmove)
-        }
-      }
-      return anyOverlaps;
+      return false;
     }
 
     private function tileResolve(isX:Boolean):void
