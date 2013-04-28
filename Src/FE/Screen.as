@@ -16,6 +16,7 @@ package Src.FE
     }
     public function update():void {}
     public function render():void {}
+    public function init():void {}
     
     public function get game():Game
     {

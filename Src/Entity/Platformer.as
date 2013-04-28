@@ -28,8 +28,6 @@ package Src.Entity
     public static const MOVE_CLIMB:int = 2;
     public var moveMode:int;
 
-    public var brace:int;
-
     public function Platformer(pos:Point)
     {
       sprite = new CSprite(this, new SpriteDef(0,0,14,14,7,2));
@@ -45,7 +43,6 @@ package Src.Entity
       shooting = false;
       stringDraw = 0;
       moveMode = MOVE_PLATFORM;
-      brace = 0;
     }
 
     public function reset():void
@@ -86,8 +83,6 @@ package Src.Entity
       platformer.disableMove = shooting || moveMode != MOVE_PLATFORM;
       rope.update();
       climb.update();
-      if(brace > 5)
-        brace = 5;
 
       if(collider.center.x > TileMap.tileWidth*game.tileMap.width)
       {
@@ -165,7 +160,7 @@ package Src.Entity
     public override function renderFE():void
     {
 
-      sack.frame.x = brace;
+      sack.frame.x = game.brace;
       sack.render(new Point(0,0));
     }
   }

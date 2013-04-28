@@ -41,6 +41,12 @@ package Src.FE
       goingLeft = true;
     }
 
+    public override function init():void
+    {
+      happy = game.brace > 0;
+      game.brace = 0;
+    }
+
     public override function update():void
     {
       if(game.input.leftKey() && pos.x > 51)

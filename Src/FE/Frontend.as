@@ -60,6 +60,11 @@ package Src.FE
         goBackScreen();
     }
 
+    public function init():void
+    {
+      screenStack[screenStack.length-1].init();
+    }
+
     private function doAction():void
     {
       switch(action)

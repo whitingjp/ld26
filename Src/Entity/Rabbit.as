@@ -76,7 +76,8 @@ package Src.Entity
           if(entities[i].collider.worldRect.intersects(collider.worldRect))
           {
             alive = false;
-            entities[i].brace++;
+            if(game.brace < 5)
+              game.brace++;
           }
         }
       }

@@ -43,6 +43,8 @@ package Src
     public var frontEnd:Frontend;
     public var camera:Camera;
 
+    public var brace:int;
+
     
     [Embed(source="../level/level.lev", mimeType="application/octet-stream")]
     public static const TestLevelClass: Class;
@@ -64,6 +66,7 @@ package Src
       world = new World(this);
 
       world.unpack(new TestLevelClass as ByteArray);
+      brace = 0;
     }
 
     public function init(w:int, h:int, pixelSize:int, targetFps:int, stage:Stage):void
@@ -105,6 +108,9 @@ package Src
         else
           changeState(STATE_GAME);        
       }
+
+      if(brace > 5)
+        brace = 5;
         
       // Update input last, so mouse presses etc. will register first..
       // also note this mode of operation isn't perfect, sometimes input
@@ -177,6 +183,8 @@ package Src
     public function changeState(state:int):void
     {
       gameState = state;
+      if(gameState == STATE_FE)
+        frontEnd.init();
       resetEntities();
     }
   }
