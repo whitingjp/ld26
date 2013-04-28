@@ -1,6 +1,5 @@
 TODO
 dusting down after a fall animation for pits?
-disable editor button
 mochibot
 sitelock?
 make arrow prediction full range
@@ -19,3 +18,4 @@ need a meal cutscene
 need a more convincing intro/hunger cutscene? SKIPPED I think the other changes are enough.
 need a completion cutscene
 saving would be good
+disable editor button
