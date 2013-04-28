@@ -2,6 +2,7 @@ TODO
 need a more convincing intro/hunger cutscene?
 need a completion cutscene
 need a meal cutscene
+dusting down after a fall animation for pits?
 saving would be good
 disable editor button
 mochibot
