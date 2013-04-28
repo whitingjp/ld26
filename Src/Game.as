@@ -111,8 +111,8 @@ package Src
           changeState(STATE_GAME);        
       }
 
-      if(brace > 5)
-        brace = 5;
+      if(brace > 3)
+        brace = 3;
 
       if(gameState == STATE_GAME)
         tileMap.update();
