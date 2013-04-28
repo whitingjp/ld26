@@ -30,17 +30,22 @@ package Src.Entity
 
     public function canClimb(dir:Point):Boolean
     {
-      var rect:Rectangle = collider.worldRect.clone();
+      var p:Point = collider.center;
       dir.normalize(8);
-      rect.offsetPoint(dir);
-      return (e.game.tileMap.getColAtRect(rect) & CCollider.COL_CLIMB) != 0;
+      p = p.add(dir);
+      var tile:Tile = e.game.tileMap.getTileAtPos(p);
+      if(tile.falling && tile.timer <= 0)
+        return false;
+      if(tile.xFrame > 0)
+        tile.falling = true;
+      return  tile.t == Tile.T_CLIMB;
     }
 
     public function update():void
     {
       if(!climbing && controller.jump)
       {
-        if(e.game.tileMap.getColAtRect(collider.worldRect) & CCollider.COL_CLIMB)
+        if(canClimb(new Point(0,0)))
         {
           climbing = true;
           return;
@@ -48,6 +53,8 @@ package Src.Entity
       }
       if(!climbing)
         return;
+      if(!canClimb(new Point(0,0)))
+        climbing = false;
       collider.speed.x /= 1.7;
       collider.speed.y /= 1.7;
       var speed:Number = 0.15;

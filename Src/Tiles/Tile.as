@@ -14,12 +14,16 @@ package Src.Tiles
     public var t:int;
     public var xFrame:int;
     public var yFrame:int;
+    public var timer:Number;
+    public var falling:Boolean;
     
     public function Tile()
     {
       t = T_NONE;
       xFrame = 0;
       yFrame = 0;
+      timer = 1;
+      falling = false;
     }
     
     public function clone():Tile
@@ -43,6 +47,14 @@ package Src.Tiles
       t = byteArray.readInt();
       xFrame = byteArray.readInt();
       yFrame = byteArray.readInt();
+    }
+
+    public function update():void
+    {
+      if(falling && timer > 0)
+        timer -= 0.01;
+      if(timer < 0)
+        timer = 0;
     }
   }
 }

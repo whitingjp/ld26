@@ -34,13 +34,16 @@ package Src.Entity
       collider.speed.x *= 0.99;
 
       var worldRect:Rectangle = collider.worldRect;
-      var col:int = game.tileMap.getColAtRect(worldRect);
-      if(col & CCollider.COL_SOLID)
+      var tile:Tile = game.tileMap.getTileAtPos(collider.center);
+      if(tile.t == Tile.T_WALL)
         alive = false;
-      if(col & CCollider.COL_GRAPPLE)
+      if(tile.t == Tile.T_GRAPPLE)
+      {
         grapple = true;
+        alive = false;
+      }
       if(grapple && !simulation)
-        rope.grapple(collider.pos);
+        rope.grapple(collider.center, tile);
     }
 
     public override function render():void

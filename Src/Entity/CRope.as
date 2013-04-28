@@ -16,6 +16,7 @@ package Src.Entity
     public var grapplePoint:Point;
     public var grappling:Boolean;
     public var targetLength:Number;
+    public var tile:Tile;
   
     public function CRope(e:Entity, collider:CCollider, controller:CController)
     {
@@ -23,14 +24,18 @@ package Src.Entity
       this.collider = collider;
       this.controller = controller;
       grappling = false;
+      tile = null;
     }
 
-    public function grapple(pos:Point):void
+    public function grapple(pos:Point, tile:Tile):void
     {
       grappling = true;
       grapplePoint = pos.clone();	
       var distance:Number = Point.distance(collider.center, grapplePoint);
       targetLength = distance*0.75;
+      this.tile = tile;
+      if(tile.xFrame > 0)
+        tile.falling = true;
     }
 
     public function render():void
@@ -88,7 +93,10 @@ package Src.Entity
       if(controller.goLeft)
         collider.speed.x -= 0.05;
       if(controller.goRight)
-        collider.speed.x += 0.05;      
+        collider.speed.x += 0.05;
+
+      if(tile.falling && tile.timer <= 0)  
+        grappling = false;
     }
   }
 }

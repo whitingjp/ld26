@@ -48,9 +48,9 @@ package Src.Tiles
       
       sprites = new Array();
       sprites[Tile.T_NONE] = new SpriteDef(0,0,1,1);
-      sprites[Tile.T_WALL] = new SpriteDef(98,56,14,14,1,1);
-      sprites[Tile.T_GRAPPLE] = new SpriteDef(210,56,14,14,1,1);
-      sprites[Tile.T_CLIMB] = new SpriteDef(140,14,14,14,1,1);
+      sprites[Tile.T_WALL] = new SpriteDef(196,84,14,14,2,1);
+      sprites[Tile.T_GRAPPLE] = new SpriteDef(196,98,14,14,2,1);
+      sprites[Tile.T_CLIMB] = new SpriteDef(196,112,14,14,2,1);
       sprites[Tile.T_ENTITY] = new SpriteDef(0,84,14,14,2,1);
       sprites[Tile.T_EXIT] = new SpriteDef(28,70,14,14,2,1);
 
@@ -105,6 +105,23 @@ package Src.Tiles
       return seed%n;
     }
 
+    public function isWall(tile:Tile):Boolean
+    {
+      var wall:Boolean = tile.t == Tile.T_WALL || tile.t == Tile.T_GRAPPLE;
+      if(tile.falling && tile.timer <= 0)
+        wall = false;
+      return wall;
+    }
+
+    public function jitter(tile:Tile):int
+    {
+      var jitter:int = 0;
+      if(tile.falling)
+        jitter = (tile.timer*16)%2;
+      return jitter;
+    }
+
+
     public function render():void
     {
       seed = 0;
@@ -113,23 +130,34 @@ package Src.Tiles
         var y:int = i/width;
         var x:int = i-(y*width);
         var tile:Tile = getTile(x,y);
+        seed = (y*width+x);
 
-        if((getColFromTile(tile) & CCollider.COL_SOLID) == 0)
+        if(tile.falling && tile.timer <= 0)
+          continue;
+
+        if(!isWall(tile))
         {
-          if(getColFromTile(getTile(x,y+1)) & CCollider.COL_SOLID)
-            game.renderer.drawSprite(decorations[0], x*tileWidth, y*tileHeight, getNum(6), 0);
-          if(getColFromTile(getTile(x+1,y)) & CCollider.COL_SOLID)
-            game.renderer.drawSprite(decorations[1], x*tileWidth, y*tileHeight, 0, getNum(6));
-          if(getColFromTile(getTile(x,y-1)) & CCollider.COL_SOLID)
-            game.renderer.drawSprite(decorations[2], x*tileWidth, y*tileHeight, getNum(6), 0);
-          if(getColFromTile(getTile(x-1,y)) & CCollider.COL_SOLID)
-            game.renderer.drawSprite(decorations[3], x*tileWidth, y*tileHeight, 0, getNum(6));
+          var other:Tile;
+          other = getTile(x,y+1);
+          if(isWall(other))
+            game.renderer.drawSprite(decorations[0], x*tileWidth, y*tileHeight+jitter(other), getNum(6), 0);
+          other = getTile(x+1,y);
+          if(isWall(other))
+            game.renderer.drawSprite(decorations[1], x*tileWidth, y*tileHeight+jitter(other), 0, getNum(6));
+          other = getTile(x,y-1);
+          if(isWall(other))
+            game.renderer.drawSprite(decorations[2], x*tileWidth, y*tileHeight+jitter(other), getNum(6), 0);
+          other = getTile(x-1,y);
+          if(isWall(other))
+            game.renderer.drawSprite(decorations[3], x*tileWidth, y*tileHeight+jitter(other), 0, getNum(6));
         }
 
         if(tile.t == Tile.T_ENTITY && game.getState() != Game.STATE_EDITING)
           continue;
-        var spr:SpriteDef = sprites[tile.t];  
-        game.renderer.drawSprite(spr, x*tileWidth, y*tileHeight, tile.xFrame, tile.yFrame);
+        var spr:SpriteDef = sprites[tile.t];
+
+        
+        game.renderer.drawSprite(spr, x*tileWidth, y*tileHeight+jitter(tile), tile.xFrame, tile.yFrame);
       }
     }
     
@@ -185,6 +213,8 @@ package Src.Tiles
 
     public function getColFromTile(tile:Tile):int
     {
+      if(tile.falling && tile.timer <= 0)
+        return CCollider.COL_NONE;
       switch(tile.t)
       {
         case Tile.T_WALL: return CCollider.COL_SOLID;
@@ -238,6 +268,21 @@ package Src.Tiles
       reset(w, h);
       for(var i:int=0; i<tiles.length; i++)
         tiles[i].readFromByteArray(byteArray);
+    }
+
+    public function update():void
+    {
+      for(var i:int=0; i<tiles.length; i++)
+        tiles[i].update();
+    }
+
+    public function resetTimers():void
+    {
+      for(var i:int=0; i<tiles.length; i++)
+      {
+        tiles[i].falling = false;
+        tiles[i].timer = 1;
+      }
     }
   }
 }

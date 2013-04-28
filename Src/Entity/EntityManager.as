@@ -141,6 +141,8 @@ package Src.Entity
             if(!worldrect.intersects(tileRect))
               continue;
             entities[i].collider.collided = true;
+            if(entities[i] is Platformer && (tile.t == Tile.T_WALL || tile.t == Tile.T_GRAPPLE) && tile.xFrame > 0)
+              tile.falling = true;
             if(!entities[i].collider.resolve)
               continue;              
             var minmove:Point = minMove(tileRect, worldrect);

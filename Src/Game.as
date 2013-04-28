@@ -113,6 +113,9 @@ package Src
 
       if(brace > 5)
         brace = 5;
+
+      if(gameState == STATE_GAME)
+        tileMap.update();
         
       // Update input last, so mouse presses etc. will register first..
       // also note this mode of operation isn't perfect, sometimes input
@@ -125,6 +128,7 @@ package Src
       entityManager.reset();      
       if(gameState == STATE_GAME)
         tileMap.spawnEntities();
+      tileMap.resetTimers();
     }
 
     private function render():void
