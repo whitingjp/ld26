@@ -1,6 +1,4 @@
 TODO
-need a more convincing intro/hunger cutscene?
-need a completion cutscene
 dusting down after a fall animation for pits?
 saving would be good
 disable editor button
@@ -17,3 +15,5 @@ changing firing direction when climbing is hard
 greebles have gaps
 no animations for firing when climbing/jumping/swingin
 need a meal cutscene
+need a more convincing intro/hunger cutscene? SKIPPED I think the other changes are enough.
+need a completion cutscene

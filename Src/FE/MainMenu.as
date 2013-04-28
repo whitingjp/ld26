@@ -40,12 +40,15 @@ package Src.FE
     private var eaten:Boolean;
     private var happy:Boolean;
 
+    private var displayRoad:Boolean;
+    private var roadScroll:Number;
+
     public function MainMenu()
     {
-      parralax = new SpriteDef(0,196,88*2,65,1,4);
+      parralax = new SpriteDef(0,196,88*2,65,1,5);
       player = new SpriteDef(0,0,14,14,11,2);
       fire = new SpriteDef(182,196,28,28,1,4);
-      kid = new SpriteDef(210,196,7,14,2,2);
+      kid = new SpriteDef(210,196,7,14,2,3);
       rabbit = new SpriteDef(98,28,7,7,4,2);
       pos = new Point(51,23);
       anim = 0;
@@ -54,6 +57,8 @@ package Src.FE
       goingLeft = true;
       scene = CUT_INTRO;
       timer = 0;
+      displayRoad = false;
+      roadScroll = 0;
     }
 
     public override function init():void
@@ -65,8 +70,8 @@ package Src.FE
       game.rabbitsReturned += game.brace;      
       timer = 0;
       displayRabbits = 0;
-      //if(game.rabbitsReturned == ??)
-      // scene = CUT_COMPLETION      
+      if(game.rabbitsReturned >= 18)
+       scene = CUT_COMPLETION;  
     }
 
     public function updateIntro():void
@@ -130,6 +135,23 @@ package Src.FE
       }
     }
 
+    public function updateCompletion():void
+    {
+      displayRoad = true;
+      if(timer < 2)
+      {
+        timer += 0.003;
+        sunset = 1-(timer-1);
+      } else
+        sunset = 0;
+      anim += 0.03;
+      happy = true; // just for anim speed
+      while(anim >= 1) anim--;
+      roadScroll += 0.25;
+      if(roadScroll > 88*2)
+        roadScroll = 0;
+    }
+
     public function updateMove():void
     {
       if(game.input.leftKey() && pos.x > 51)
@@ -154,6 +176,13 @@ package Src.FE
         updateIntro();
       if(scene == CUT_MEAL)
         updateMeal();
+      if(scene == CUT_COMPLETION)
+      {
+        updateMeal();
+        if(eaten)
+          updateCompletion();
+      }
+
 
       if(canMove)
         updateMove();
@@ -184,28 +213,44 @@ package Src.FE
       {
         var factor:Number = 1.0/(3-i);
         if(i==3)
+        {
           factor = 0;
+          if(displayRoad)
+            continue;
+        }
         var y:Number = 2;
         if(i!=3)
           y += 2*sunset*100*factor;
         game.renderer.drawSprite(parralax, -factor*pos.x, y, 0, i);
-      }      
-      game.renderer.drawSprite(fire, 16, 8, 0, fireAnim*4);
-      if(sunset > 0)
-      game.renderer.drawSprite(player, pos.x, pos.y+4, 10, 0);
-      else
-        game.renderer.drawSprite(player, pos.x, pos.y, anim*2, goingLeft ? 1 : 0);
-      game.renderer.drawSprite(kid, 39, 26, kidAnim*2, happy ? 0 : 1);
+      }
       var offset:Number = kidAnim+0.4;
       if(offset > 1) offset--;
-      game.renderer.drawSprite(kid, 45, 24, offset*2+1, happy ? 0 : 1);
+      if(displayRoad)
+      {
+        game.renderer.drawSprite(parralax, roadScroll-88*2, 2, 0, 4);
+        game.renderer.drawSprite(parralax, roadScroll, 2, 0, 4);
+        game.renderer.drawSprite(player, 46, 39, anim*2, 1);
+        game.renderer.drawSprite(kid, 60, 39, kidAnim*2, 2);
+        game.renderer.drawSprite(kid, 69, 39, offset*2+1, 2);
+      }
+      else
+      {
+        game.renderer.drawSprite(fire, 16, 8, 0, fireAnim*4);
+        if(sunset > 0)
+          game.renderer.drawSprite(player, pos.x, pos.y+4, 10, 0);
+        else
+          game.renderer.drawSprite(player, pos.x, pos.y, anim*2, goingLeft ? 1 : 0);
+        game.renderer.drawSprite(kid, 39, 26, kidAnim*2, happy ? 0 : 1);
+        game.renderer.drawSprite(kid, 45, 24, offset*2+1, happy ? 0 : 1);
 
-      if(displayRabbits > 0)
-        game.renderer.drawSprite(rabbit, 47, 38, 2, 0);
-      if(displayRabbits > 1)
-        game.renderer.drawSprite(rabbit, 57, 40, 3, 0);
-      if(displayRabbits > 2)
-        game.renderer.drawSprite(rabbit, 67, 36, 2, 1);
+        if(displayRabbits > 0)
+          game.renderer.drawSprite(rabbit, 47, 38, 2, 0);
+        if(displayRabbits > 1)
+          game.renderer.drawSprite(rabbit, 57, 40, 3, 0);
+        if(displayRabbits > 2)
+          game.renderer.drawSprite(rabbit, 67, 36, 2, 1);
+      }
+
     }
   }
 }
