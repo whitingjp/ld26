@@ -17,7 +17,7 @@ package Src.Entity
     public function Returner(pos:Point)
     {
     	dest = pos;
-      timer = 1;
+      timer = 0.001;
     }
 
     public override function update():void
@@ -25,7 +25,7 @@ package Src.Entity
       if(game.brace == 3)
         timer -= 0.01;
       if(timer > 0)
-        return
+        return;
 
       timer++;
       var entities:Array = game.entityManager.entities;

@@ -1,6 +1,7 @@
 TODO
-objective is not clear enough, better intro would help, better signalling to get back home might too?
+objective is not clear enough, better intro would help, better signalling to get back home might too? Probably worth doing a door-lock thing for the first one.
 changing firing direction when climbing is hard
+no animations for firing when climbing/jumping
 
 DONE
 climbing jumps need easier intro
