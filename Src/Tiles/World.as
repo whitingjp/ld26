@@ -108,6 +108,7 @@ package Src.Tiles
       {
         tilemaps[getIndexFromPos(pos)].spawnEntities(false);
       }
+      tilemaps[getIndexFromPos(pos)].resetTimers();
 
     }
   }
