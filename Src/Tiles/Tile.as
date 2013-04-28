@@ -61,12 +61,15 @@ package Src.Tiles
     {
       if(falling && timer > 0)
       {
+        if(falling && timer == 1)
+          game.soundManager.playSound("tileshake");
         timer -= 0.01;        
         if(timer < 0)
         {
           for(var i:int=0; i<6; i++)
             game.entityManager.push(new Particle(pos));
           timer = 0;
+          game.soundManager.playSound("tilefall");
         }
         //if(Math.random() > 0.98)
           //game.entityManager.push(new Particle(pos));

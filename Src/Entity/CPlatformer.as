@@ -55,10 +55,14 @@ package Src.Entity
       }
       if(!inAir && ((!controller.goLeft && !controller.goRight) || disableMove))
         collider.speed.x /= 1.7;
-      else
+      else if(!inAir)
       {
         anim = anim + 0.05;
-        while(anim > 1) anim--;
+        while(anim > 1)
+        {
+          anim--;
+          e.game.soundManager.playSound("footstep");
+        }
       }
 
       if(controller.goLeft && ! controller.goRight)
@@ -73,11 +77,17 @@ package Src.Entity
       floorRect.offset(0,1);
       floorRect.inflate(-2,0);
       var col:int = e.game.tileMap.getColAtRect(floorRect);
+      var oldInAir:Boolean = inAir;
       inAir = (col & CCollider.COL_SOLID) == 0;
+      if(oldInAir && !inAir)
+        e.game.soundManager.playSound("land");
       if(!inAir)
         collider.speed.y = 0;
       if(!inAir && controller.jump && !disableMove)
+      {
         collider.speed.y = -1.8;
+        e.game.soundManager.playSound("jump");
+      }
       if(!disableGravity)
       {
         collider.speed.y += 0.1;

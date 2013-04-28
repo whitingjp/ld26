@@ -49,6 +49,7 @@ package Src.Entity
       {
         if(canClimb(new Point(0,0)))
         {
+          e.game.soundManager.playSound("grab");
           climbing = true;
           return;
         }
@@ -78,11 +79,16 @@ package Src.Entity
       if(controller.goUp || controller.goRight || controller.goDown || controller.goLeft)
       {
         anim = anim + 0.05;
-        while(anim > 1) anim--;
+        while(anim > 1)
+        {
+          anim--;
+          e.game.soundManager.playSound("climb");
+        }
       }
 
       if(controller.jump)
       {
+        e.game.soundManager.playSound("jump");
         climbing = false;
         collider.speed.y = -1.3;
         if(controller.goLeft)

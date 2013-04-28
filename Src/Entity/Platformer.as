@@ -59,6 +59,8 @@ package Src.Entity
       game.camera.setTarget(collider.pos);      
       if(controller.doAction)
       {
+        if(!shooting)
+          game.soundManager.playSound("drawbow");
         shooting = true;
         stringDraw += 0.02;
         if(stringDraw > 1)
@@ -66,7 +68,10 @@ package Src.Entity
       } else
       {
         if(shooting)
+        {
           game.entityManager.push(newArrow());
+          game.soundManager.playSound("fire");
+        }
         shooting = false;
         stringDraw = 0;
       }
@@ -108,6 +113,7 @@ package Src.Entity
         // fell into a pit
         game.world.moveScreen(new Point(0, 1));
         game.renderer.startFade(0x1b1927, 0.003);
+        game.soundManager.playSound("pitfall");
       }
       if(collider.center.y < 0)
       {

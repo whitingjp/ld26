@@ -38,14 +38,21 @@ package Src.Entity
       if(tile.falling && tile.timer <= 0)
         return;
       if(tile.t == Tile.T_WALL)
+      {
         alive = false;
+        if(!simulation)
+          game.soundManager.playSound("arrowhit");
+      }
       if(tile.t == Tile.T_GRAPPLE)
       {
         grapple = true;
-        alive = false;
+        alive = false;        
       }
       if(grapple && !simulation)
+      {
         rope.grapple(collider.center, tile);
+        game.soundManager.playSound("grapple");
+      }
     }
 
     public override function render():void

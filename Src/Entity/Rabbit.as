@@ -16,6 +16,7 @@ package Src.Entity
     public var goingLeft:Boolean;
     public var gored:Boolean;
     public var uid:String;
+    public var playedCannotCollect:Boolean;
 
     public function Rabbit(pos:Point, uid:String)
     {
@@ -28,12 +29,16 @@ package Src.Entity
       anim = 0;
       gored = false;
       this.uid = uid;
+      playedCannotCollect = false;
     }
 
     public override function update():void
     {
+      var oldDir:int = dir;
       if(Math.random() > 0.99)
         dir = Math.random()*3;
+      if(oldDir != dir)
+        game.soundManager.playSound("rabbitturn");
       if(gored)
       {
         dir = 2;
@@ -71,17 +76,23 @@ package Src.Entity
           {
             gored = true;
             entities[i].alive = false;
+            game.soundManager.playSound("arrowkill");
           }
         }
         if(gored && entities[i] is Platformer)
         {
           if(entities[i].collider.worldRect.intersects(collider.worldRect))
-          {
-            alive = false;
+          {            
             if(game.brace < 3)
             {
               game.brace++;
               game.deadRabbits.push(uid);
+              game.soundManager.playSound("collect");
+              alive = false;
+            } else if(!playedCannotCollect)
+            {
+              game.soundManager.playSound("cannotcollect");
+              playedCannotCollect = true;
             }
           }
         }

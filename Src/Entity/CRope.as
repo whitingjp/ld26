@@ -59,7 +59,10 @@ package Src.Entity
         return;
 
       if(controller.jump)
+      {
         grappling = false;
+        e.game.soundManager.playSound("jump");
+      }
 
       collider.speed.x *= 0.99;
       collider.speed.y *= 0.99;
