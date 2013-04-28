@@ -85,7 +85,15 @@ package Src.Tiles
               game.entityManager.push(new Platformer(p));
             break;
           case OBJ_RABBIT:
-            game.entityManager.push(new Rabbit(p));
+            var uid:String = "";
+            uid = "rabbit uid: #" + game.world.pos.x + "#" + game.world.pos.y + "#" + x + "#" + y + "#";
+            trace(uid);
+            var doSpawn:Boolean = true;
+            for(var j:int=0; j<game.deadRabbits.length; j++)
+              if(game.deadRabbits[j] == uid)
+                doSpawn = false;
+            if(doSpawn)
+              game.entityManager.push(new Rabbit(p, uid));
             break;
         }
       }

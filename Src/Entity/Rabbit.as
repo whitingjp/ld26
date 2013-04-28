@@ -15,8 +15,9 @@ package Src.Entity
     public var anim:Number;
     public var goingLeft:Boolean;
     public var gored:Boolean;
+    public var uid:String;
 
-    public function Rabbit(pos:Point)
+    public function Rabbit(pos:Point, uid:String)
     {
       sprite = new CSprite(this, new SpriteDef(98,14,7,7,4,2));
       collider = new CCollider(this);
@@ -26,6 +27,7 @@ package Src.Entity
       goingLeft = false;
       anim = 0;
       gored = false;
+      this.uid = uid;
     }
 
     public override function update():void
@@ -77,7 +79,10 @@ package Src.Entity
           {
             alive = false;
             if(game.brace < 5)
+            {
               game.brace++;
+              game.deadRabbits.push(uid);
+            }
           }
         }
       }

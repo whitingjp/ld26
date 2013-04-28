@@ -44,6 +44,7 @@ package Src
     public var camera:Camera;
 
     public var brace:int;
+    public var deadRabbits:Array;
 
     
     [Embed(source="../level/level.lev", mimeType="application/octet-stream")]
@@ -67,6 +68,7 @@ package Src
 
       world.unpack(new TestLevelClass as ByteArray);
       brace = 0;
+      deadRabbits = new Array();
     }
 
     public function init(w:int, h:int, pixelSize:int, targetFps:int, stage:Stage):void
