@@ -104,7 +104,8 @@ package Src.Entity
       if(collider.center.y > TileMap.tileHeight*game.tileMap.height)
       {
         // fell into a pit
-        game.world.moveScreen(new Point(Math.random()*game.world.width, 1));
+        game.world.moveScreen(new Point(0, 1));
+        game.renderer.startFade(0x1b1927, 0.003);
       }
       if(collider.center.y < 0)
       {

@@ -26,7 +26,6 @@ package Src.Gfx
     
     // background
     public var bitmap:Bitmap;
-    public var febitmap:Bitmap;
 
     private var fadeSpeed:Number;
     private var fade:Number;
@@ -42,17 +41,14 @@ package Src.Gfx
     
       bitmap = new Bitmap(new BitmapData(width, height, false, 0xAAAAAA ) );
       bitmap.scaleX = bitmap.scaleY = pixelSize;
-
-      //febitmap = new Bitmap(new BitmapData(width/3, height/3, false, 0xAAAAAA ) );
-      //febitmap.scaleX = bitmap.scaleY = pixelSize*3;
     
       spriteSheetSrc = new spriteSheetClass() as BitmapAsset;
       spriteSheet = spriteSheetSrc.bitmapData;
 
       backBuffer = new BitmapData(width, height, false);
 
-      fade = 0;
-      fadeSpeed = 0.005;
+      fade = 0.95;
+      fadeSpeed = 0.004;
       fadeCol = 0xff000000;
       camera = null;
     }
@@ -71,7 +67,12 @@ package Src.Gfx
       bitmap.bitmapData.fillRect( bitmap.bitmapData.rect, clearColor );
       bitmap.bitmapData.copyPixels(backBuffer, backBuffer.rect, new Point(0,0));
    
-      // TODO handle fade again
+      var amount:Number = fade;
+      if(amount < 0) amount++;
+      var c:uint = (amount*255) << 24;
+      c += fadeCol & 0xffffff;
+      var whiteTransparent:BitmapData = new BitmapData(width, height, true, c);
+      bitmap.bitmapData.draw(whiteTransparent);
     }
 
     public function drawSprite(spr:SpriteDef, x:int, y:int,
