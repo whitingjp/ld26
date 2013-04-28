@@ -45,7 +45,7 @@ package Src.Entity
       var center:Point = collider.center;
       var diff:Point = grapplePoint.subtract(center);
       var distance:Number = Point.distance(center, grapplePoint);
-      var numPoints:int = distance/4;
+      var numPoints:int = distance*3;
       for(var i:int=0; i<numPoints; i++)
       {
         var renderPoint:Point = Point.interpolate(center, grapplePoint, i/numPoints);
