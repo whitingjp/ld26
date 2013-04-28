@@ -104,13 +104,13 @@ package Src
     public function jumpKey(held:Boolean=true):Boolean
     {
       var dict:Dictionary = held ? keyDownDictionary : keyPressedDictionary;
-      return dict[KEY_Z] || dict[KEY_SHIFT] || dict[KEY_CONTROL];
+      return dict[KEY_Z] || dict[KEY_SPACE];
     }
 
     public function actKey(held:Boolean=true):Boolean
     {
       var dict:Dictionary = held ? keyDownDictionary : keyPressedDictionary;
-      return dict[KEY_X] || dict[KEY_SPACE] || dict[KEY_SHIFT];
+      return dict[KEY_X] || dict[KEY_SHIFT] || dict[KEY_CONTROL];
     }
     
 		public static const KEY_BACKSPACE : int = 8;
