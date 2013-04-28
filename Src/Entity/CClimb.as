@@ -34,11 +34,13 @@ package Src.Entity
       dir.normalize(8);
       p = p.add(dir);
       var tile:Tile = e.game.tileMap.getTileAtPos(p);
+      if(tile.t != Tile.T_CLIMB)
+        return false;
       if(tile.falling && tile.timer <= 0)
         return false;
       if(tile.xFrame > 0)
         tile.falling = true;
-      return  tile.t == Tile.T_CLIMB;
+      return  true;
     }
 
     public function update():void
