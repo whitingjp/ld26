@@ -72,7 +72,7 @@ package Src.Entity
       var savePos:Point = collider.pos.clone();
       var saveSpeed:Point = collider.speed.clone();
       simulation = true;
-      for(var i:int=0; i<30; i++)
+      for(var i:int=0; i<90; i++)
       {
         update();
         collider.pos.x += collider.speed.x;
@@ -94,7 +94,7 @@ package Src.Entity
     {
       var goingToGrapple:Boolean = willGrapple();
       simulation = true;
-      for(var i:int=0; i<10; i++)
+      for(var i:int=0; i<30; i++)
       {
         for(var j:int=0; j<3; j++)
         {

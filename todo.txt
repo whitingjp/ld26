@@ -1,9 +1,7 @@
 TODO
 dusting down after a fall animation for pits?
-mochibot
-sitelock?
-make arrow prediction full range
 glitchy camera/player
+add webpage
 
 DONE
 climbing jumps need easier intro
@@ -19,3 +17,4 @@ need a more convincing intro/hunger cutscene? SKIPPED I think the other changes 
 need a completion cutscene
 saving would be good
 disable editor button
+make arrow prediction full range
