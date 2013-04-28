@@ -272,8 +272,14 @@ package Src.Tiles
 
     public function update():void
     {
+      var p:Point;
       for(var i:int=0; i<tiles.length; i++)
-        tiles[i].update();
+      {
+        p = getXY(i);
+        p.x = p.x*14+7;
+        p.y = p.y*14+7;
+        tiles[i].update(game, p);
+      }
     }
 
     public function resetTimers():void

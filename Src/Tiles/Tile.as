@@ -1,6 +1,14 @@
 package Src.Tiles
 {
+    import mx.core.*;
+  import mx.collections.*;
+  import flash.geom.*
+  import flash.net.*;
+  import flash.events.*;
   import flash.utils.*;
+  import Src.*;
+  import Src.Entity.*;
+  import Src.Gfx.*;
   public class Tile
   {
     public static const T_NONE:int=0;
@@ -49,12 +57,21 @@ package Src.Tiles
       yFrame = byteArray.readInt();
     }
 
-    public function update():void
+    public function update(game:Game, pos:Point):void
     {
       if(falling && timer > 0)
-        timer -= 0.01;
-      if(timer < 0)
-        timer = 0;
+      {
+        timer -= 0.01;        
+        if(timer < 0)
+        {
+          for(var i:int=0; i<6; i++)
+            game.entityManager.push(new Particle(pos));
+          timer = 0;
+        }
+        //if(Math.random() > 0.98)
+          //game.entityManager.push(new Particle(pos));
+      }
+
     }
   }
 }
