@@ -1,7 +1,6 @@
 TODO
 dusting down after a fall animation for pits?
 glitchy camera/player
-add webpage
 
 DONE
 climbing jumps need easier intro
