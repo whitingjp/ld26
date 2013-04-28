@@ -110,6 +110,7 @@ package Src.Tiles
       }
       tilemaps[getIndexFromPos(pos)].resetTimers();
       game.camera.doJump = true;
+      game.save();
     }
   }
 }

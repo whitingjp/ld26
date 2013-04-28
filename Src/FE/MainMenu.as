@@ -62,7 +62,7 @@ package Src.FE
     }
 
     public override function init():void
-    {
+    {      
       if(game.brace > 0)
         scene = CUT_MEAL;
       else
@@ -71,7 +71,8 @@ package Src.FE
       timer = 0;
       displayRabbits = 0;
       if(game.rabbitsReturned >= 18)
-       scene = CUT_COMPLETION;  
+        scene = CUT_COMPLETION;      
+      game.save();
     }
 
     public function updateIntro():void
@@ -137,6 +138,8 @@ package Src.FE
 
     public function updateCompletion():void
     {
+      if(!displayRoad)
+        game.clearSave();
       displayRoad = true;
       if(timer < 2)
       {
@@ -197,6 +200,7 @@ package Src.FE
         if(canExit)
         {
           game.brace = 0;
+          game.save();
           game.changeState(Game.STATE_GAME);
         }
         else

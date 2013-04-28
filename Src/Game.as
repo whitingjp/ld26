@@ -14,6 +14,7 @@ package Src
   import Src.Gfx.*;
   import Src.Sound.*;
   import Src.Tiles.*;
+  import flash.net.*; 
 
   public class Game
   {    
@@ -47,6 +48,8 @@ package Src
     public var rabbitsReturned:int;
     public var deadRabbits:Array;
 
+
+
     
     [Embed(source="../level/level.lev", mimeType="application/octet-stream")]
     public static const TestLevelClass: Class;
@@ -71,6 +74,35 @@ package Src
       brace = 0;
       rabbitsReturned = 0;
       deadRabbits = new Array();
+      load();
+    }
+
+    public function load():void
+    {
+      trace('loading');
+      var sharedObject:SharedObject = SharedObject.getLocal("SaveGame");
+      if(sharedObject.data.rabbitsReturned)
+        rabbitsReturned = sharedObject.data.rabbitsReturned;
+      if(sharedObject.data.brace)
+        brace = sharedObject.data.brace;
+      if(sharedObject.data.deadRabbits)
+        deadRabbits = sharedObject.data.deadRabbits;
+    }
+
+    public function save():void
+    {
+      trace('saving');
+      var sharedObject:SharedObject = SharedObject.getLocal("SaveGame");
+      sharedObject.data.rabbitsReturned = rabbitsReturned;
+      sharedObject.data.brace = brace;
+      sharedObject.data.deadRabbits = deadRabbits;
+      sharedObject.flush();
+    }
+
+    public function clearSave():void
+    {
+      var sharedObject:SharedObject = SharedObject.getLocal("SaveGame");
+      sharedObject.clear();
     }
 
     public function init(w:int, h:int, pixelSize:int, targetFps:int, stage:Stage):void
@@ -97,6 +129,9 @@ package Src
 
     private function update():void
     {
+      if(input.keyPressedDictionary[Input.KEY_HOME])
+        clearSave();
+
       camera.update();
       renderer.update();
       entityManager.update();

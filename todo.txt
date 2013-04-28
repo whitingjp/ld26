@@ -1,9 +1,10 @@
 TODO
 dusting down after a fall animation for pits?
-saving would be good
 disable editor button
 mochibot
 sitelock?
+make arrow prediction full range
+glitchy camera/player
 
 DONE
 climbing jumps need easier intro
@@ -17,3 +18,4 @@ no animations for firing when climbing/jumping/swingin
 need a meal cutscene
 need a more convincing intro/hunger cutscene? SKIPPED I think the other changes are enough.
 need a completion cutscene
+saving would be good
