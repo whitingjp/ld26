@@ -74,16 +74,18 @@ package Src.Entity
       var speed:Number = 0.15;
       if(controller.goUp && canClimb(new Point(0,-1)))
         collider.speed.y -= speed;
-      if(controller.goRight && canClimb(new Point(1,0)))
+      if(controller.goRight)
       {
-        collider.speed.x += speed;
+        if(canClimb(new Point(1,0)))
+          collider.speed.x += speed;
         goingLeft = false;
       }
       if(controller.goDown && canClimb(new Point(0,1)))
         collider.speed.y += speed;
-      if(controller.goLeft && canClimb(new Point(-1,0)))
+      if(controller.goLeft)
       {
-        collider.speed.x -= speed;
+        if(canClimb(new Point(-1,0)))
+          collider.speed.x -= speed;
         goingLeft = true;
       }
 
