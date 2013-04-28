@@ -1,8 +1,9 @@
 TODO
-climbing could stand to be a bit less fussy about grabs
 objective is not clear enough, better intro would help, better signalling to get back home might too?
+changing firing direction when climbing is hard
 
 DONE
 climbing jumps need easier intro
 rabbit knocked off ledge is buggy (think I just need to disable rabbit/player collisions)
 climbing fall timer should be a bit slower
+climbing could stand to be a bit less fussy about grabs

@@ -28,11 +28,8 @@ package Src.Entity
       goingLeft = false;
     }
 
-    public function canClimb(dir:Point):Boolean
+    public function _canClimb(p:Point):Boolean
     {
-      var p:Point = collider.center;
-      dir.normalize(8);
-      p = p.add(dir);
       var tile:Tile = e.game.tileMap.getTileAtPos(p);
       if(tile.t != Tile.T_CLIMB)
         return false;
@@ -41,6 +38,20 @@ package Src.Entity
       if(tile.xFrame > 0)
         tile.falling = true;
       return  true;
+    }
+
+    public function canClimb(dir:Point):Boolean
+    {
+      var p:Point = collider.center;
+      dir.normalize(6);
+      p = p.add(dir);
+      var canClimb:Boolean = false;
+      canClimb ||= _canClimb(p.add(new Point(0,0)));
+      canClimb ||= _canClimb(p.add(new Point(0,-4)));
+      canClimb ||= _canClimb(p.add(new Point(4,0)));
+      canClimb ||= _canClimb(p.add(new Point(0,4)));
+      canClimb ||= _canClimb(p.add(new Point(-4,0)));
+      return canClimb;
     }
 
     public function update():void
