@@ -44,6 +44,7 @@ package Src
     public var camera:Camera;
 
     public var brace:int;
+    public var rabbitsReturned:int;
     public var deadRabbits:Array;
 
     
@@ -68,6 +69,7 @@ package Src
 
       world.unpack(new TestLevelClass as ByteArray);
       brace = 0;
+      rabbitsReturned = 0;
       deadRabbits = new Array();
     }
 

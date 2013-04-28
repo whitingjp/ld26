@@ -16,8 +16,9 @@ package Src.Tiles
     public static const T_GRAPPLE:int=2;
     public static const T_CLIMB:int=3;
     public static const T_EXIT:int=4;
-    public static const T_ENTITY:int=5;    
-    public static const T_MAX:int=6;
+    public static const T_ENTITY:int=5;   
+    public static const T_ROCKFALL:int=6; 
+    public static const T_MAX:int=7;
     
     public var t:int;
     public var xFrame:int;

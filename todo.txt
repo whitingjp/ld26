@@ -1,10 +1,17 @@
 TODO
-objective is not clear enough, better intro would help, better signalling to get back home might too? Probably worth doing a door-lock thing for the first one.
 changing firing direction when climbing is hard
 no animations for firing when climbing/jumping
+need a more convincing intro/hunger cutscene?
+need a completion cutscene
+need a meal cutscene
+greebles have gaps
+saving would be good
+disable editor button
+
 
 DONE
 climbing jumps need easier intro
 rabbit knocked off ledge is buggy (think I just need to disable rabbit/player collisions)
 climbing fall timer should be a bit slower
 climbing could stand to be a bit less fussy about grabs
+objective is not clear enough, probably worth doing a door-lock thing for the first one.

@@ -44,6 +44,7 @@ package Src.FE
     public override function init():void
     {
       happy = game.brace > 0;
+      game.rabbitsReturned += game.brace;
       game.brace = 0;
     }
 

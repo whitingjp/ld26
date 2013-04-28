@@ -54,6 +54,7 @@ package Src.Tiles
       sprites[Tile.T_CLIMB] = new SpriteDef(196,112,14,14,2,1);
       sprites[Tile.T_ENTITY] = new SpriteDef(0,84,14,14,3,1);
       sprites[Tile.T_EXIT] = new SpriteDef(28,70,14,14,2,1);
+      sprites[Tile.T_ROCKFALL] = new SpriteDef(196,126,14,14,2,1);
 
       decorations = new Array();
       decorations[0] = new SpriteDef(0,42,14,14,6,1);
@@ -148,6 +149,14 @@ package Src.Tiles
         if(tile.falling && tile.timer <= 0)
           continue;
 
+        if(tile.t == Tile.T_ROCKFALL && game.getState() != Game.STATE_EDITING)
+        {
+          if(tile.xFrame == 0 && game.rabbitsReturned < 3)
+            continue;
+          if(tile.xFrame == 1 && game.rabbitsReturned >= 3)
+            continue;
+        }
+
         if(!isWall(tile))
         {
           var other:Tile;
@@ -228,11 +237,19 @@ package Src.Tiles
     {
       if(tile.falling && tile.timer <= 0)
         return CCollider.COL_NONE;
+      if(tile.t == Tile.T_ROCKFALL)
+      {
+        if(tile.xFrame == 0 && game.rabbitsReturned < 3)
+          return CCollider.COL_NONE;
+        if(tile.xFrame == 1 && game.rabbitsReturned >= 3)
+          return CCollider.COL_NONE;
+      }
       switch(tile.t)
       {
         case Tile.T_WALL: return CCollider.COL_SOLID;
         case Tile.T_GRAPPLE: return CCollider.COL_SOLID | CCollider.COL_GRAPPLE;
         case Tile.T_CLIMB: return CCollider.COL_CLIMB;
+        case Tile.T_ROCKFALL: return CCollider.COL_SOLID;
       }
       return CCollider.COL_NONE;
     }
