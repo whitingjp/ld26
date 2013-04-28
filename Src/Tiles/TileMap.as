@@ -122,6 +122,14 @@ package Src.Tiles
     public function isWall(tile:Tile):Boolean
     {
       var wall:Boolean = tile.t == Tile.T_WALL || tile.t == Tile.T_GRAPPLE;
+      if(tile.t == Tile.T_ROCKFALL && game.getState() != Game.STATE_EDITING)
+      {
+        wall = true;
+        if(tile.xFrame == 0 && game.rabbitsReturned < 3)
+          wall = false
+        if(tile.xFrame == 1 && game.rabbitsReturned >= 3)
+          wall = false
+      }
       if(tile.falling && tile.timer <= 0)
         wall = false;
       return wall;
@@ -144,18 +152,7 @@ package Src.Tiles
         var y:int = i/width;
         var x:int = i-(y*width);
         var tile:Tile = getTile(x,y);
-        seed = (y*width+x);
-
-        if(tile.falling && tile.timer <= 0)
-          continue;
-
-        if(tile.t == Tile.T_ROCKFALL && game.getState() != Game.STATE_EDITING)
-        {
-          if(tile.xFrame == 0 && game.rabbitsReturned < 3)
-            continue;
-          if(tile.xFrame == 1 && game.rabbitsReturned >= 3)
-            continue;
-        }
+        seed = tile.seed;
 
         if(!isWall(tile))
         {
@@ -172,6 +169,17 @@ package Src.Tiles
           other = getTile(x-1,y);
           if(isWall(other))
             game.renderer.drawSprite(decorations[3], x*tileWidth, y*tileHeight+jitter(other), 0, getNum(6));
+        }
+
+        if(tile.falling && tile.timer <= 0)
+          continue;
+
+        if(tile.t == Tile.T_ROCKFALL && game.getState() != Game.STATE_EDITING)
+        {
+          if(tile.xFrame == 0 && game.rabbitsReturned < 3)
+            continue;
+          if(tile.xFrame == 1 && game.rabbitsReturned >= 3)
+            continue;
         }
 
         if(tile.t == Tile.T_ENTITY && game.getState() != Game.STATE_EDITING)

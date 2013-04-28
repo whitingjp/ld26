@@ -25,6 +25,7 @@ package Src.Tiles
     public var yFrame:int;
     public var timer:Number;
     public var falling:Boolean;
+    public var seed:int;
     
     public function Tile()
     {
@@ -33,6 +34,7 @@ package Src.Tiles
       yFrame = 0;
       timer = 1;
       falling = false;
+      seed = Math.random()*0xffffff;
     }
     
     public function clone():Tile
