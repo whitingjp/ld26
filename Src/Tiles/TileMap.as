@@ -14,6 +14,7 @@ package Src.Tiles
   {  
     private static const OBJ_START:int=0;
     private static const OBJ_RABBIT:int=1;
+    private static const OBJ_RETURNER:int=2;
   
     public static var tileWidth:int=14;
     public static var tileHeight:int=14;
@@ -51,7 +52,7 @@ package Src.Tiles
       sprites[Tile.T_WALL] = new SpriteDef(196,84,14,14,2,1);
       sprites[Tile.T_GRAPPLE] = new SpriteDef(196,98,14,14,2,1);
       sprites[Tile.T_CLIMB] = new SpriteDef(196,112,14,14,2,1);
-      sprites[Tile.T_ENTITY] = new SpriteDef(0,84,14,14,2,1);
+      sprites[Tile.T_ENTITY] = new SpriteDef(0,84,14,14,3,1);
       sprites[Tile.T_EXIT] = new SpriteDef(28,70,14,14,2,1);
 
       decorations = new Array();
@@ -94,6 +95,9 @@ package Src.Tiles
                 doSpawn = false;
             if(doSpawn)
               game.entityManager.push(new Rabbit(p, uid));
+            break;
+          case OBJ_RETURNER:
+            game.entityManager.push(new Returner(p));
             break;
         }
       }

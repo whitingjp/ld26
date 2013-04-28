@@ -35,6 +35,8 @@ package Src.Entity
 
       var worldRect:Rectangle = collider.worldRect;
       var tile:Tile = game.tileMap.getTileAtPos(collider.center);
+      if(tile.falling && tile.timer <= 0)
+        return;
       if(tile.t == Tile.T_WALL)
         alive = false;
       if(tile.t == Tile.T_GRAPPLE)
