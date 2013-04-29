@@ -7,7 +7,7 @@ package
 	import flash.utils.getDefinitionByName;
 	import Src.*;
 
-	[SWF(width = "798", height = "588", backgroundColor="#30362a")]
+	[SWF(width = "798", height = "588", backgroundColor="#42385e")]
 	public class Preloader extends Sprite
 	{
 	
@@ -31,7 +31,7 @@ package
 			px = (sw - w) * 0.5;
 			py = (sh - h) * 0.5;		
 					
-			graphics.beginFill(0x30362a);
+			graphics.beginFill(0x42385e);
 			graphics.drawRect(0, 0, sw, sh);
 			graphics.endFill();
 			
@@ -52,7 +52,7 @@ package
 			var p:Number = (loaderInfo.bytesLoaded / loaderInfo.bytesTotal);
 				
 			progressBar.graphics.clear();
-			progressBar.graphics.beginFill(0xc1f6bb);
+			progressBar.graphics.beginFill(0xb0375f);
 			progressBar.graphics.drawRect(px, py, p * w, h);
 			progressBar.graphics.endFill();			
 		}
